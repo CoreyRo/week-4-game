@@ -1,5 +1,8 @@
 body{
-	
+	background-image: url("../img/bg1.jpg");
+
+	background-repeat: no-repeat;
+
 	font-family: 'Josefin Sans', sans-serif;
 	font-size: 12pt;
 }
@@ -12,6 +15,11 @@ a{
 h1, h2, h3{
 	text-align: center;
 
+}
+
+.row{
+	margin-right: 0;
+	margin-left: 0;
 }
 
 #navbrand{
