@@ -9,8 +9,9 @@ a{
 	font-size: 12pt;
 }
 
-h1{
-	color: #ffb800;
+h1, h2, h3{
+	text-align: center;
+
 }
 
 #navbrand{
@@ -21,8 +22,17 @@ h1{
 }
 
 .myheaders{
+	text-align: center;
 	font-family: 'Press Start 2P', cursive;
 	color: #ffb800;
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	font-size: 32pt;
+}
+#newGameButtonDiv{
+	text-align: center;
+}
+
+#newGame{
+	display: inline-block;
+	text-align: center;
 }
