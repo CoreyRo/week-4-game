@@ -104,16 +104,16 @@ $(document).ready(function($) {
 	//enemies
 	//need to figure out how to make them show up using the enemyArray.name
 	//I don't know if I set this up right.
-	var creature = {
-		name:"creature",
-		eimg:'scr="http://via.placeholder.com/150x150"',
-		ehp:8,
-		eitems:[""],
-		eattack:eattack,
-		edamage:edamage,
-		edefense:8,
-		xp:+3,
-	}
+	// var creature = {
+	// 	name:"creature",
+	// 	eimg:'scr="http://via.placeholder.com/150x150"',
+	// 	ehp:8,
+	// 	eitems:[""],
+	// 	eattack:eattack,
+	// 	edamage:edamage,
+	// 	edefense:8,
+	// 	xp:+3,
+	// }
 
 	var skeleton = {
 		name:"Weak Skeleton",
@@ -158,7 +158,7 @@ $(document).ready(function($) {
 		edefense:16,
 		xp:+50,
 	}
-	var enemiesArray = [creature, skeleton, rat, thief, hellHound];
+	var enemiesArray = [null, skeleton, rat, thief, hellHound];
 
 	//***********************************************************************
 	//is there an enemy in this room?
