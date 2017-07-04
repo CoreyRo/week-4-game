@@ -261,9 +261,12 @@ $(document).ready(function($) {
 		newRooms();
 		isEnemy();
 		if(isEnemyCheck){
-			whatEnemy();
+				whatEnemy();
+				//why does enemyAppear.ehp come up undefined if I just ran the whatEnemy()? I thought that would create the enemy.
+				console.log("Test enemy HP: " + enemyAppear.ehp);
 			if(enemyAppear.ehp > 0){
 				$("#whichWay").hide();
+
 				$("#attackBtn").on("click", combat());
 			}
 		
