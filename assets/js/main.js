@@ -2,6 +2,11 @@
 //****************Dungeon Survival RPG****************
 //******************By Corey Rodems*******************
 
+//figure out why the enemyAppear.X stuff throwing back undefined.
+//create the combat loop.
+//create the use potion function.
+//create the xp += for score
+//create the lose condition HP <=0 then end game and show total score.
 
 //****************************************************************
 //vars
@@ -21,7 +26,7 @@ var pattack;
 var pdamage;
 var pcritDamage;
 var pdefense;
-var xp;
+var xp = 0;
 var gold = 0;
 var potion = 2;
 //enemy vars
@@ -83,6 +88,7 @@ function edamageRoll(){
 
 //***********************************************************************
 //player
+//I don't know if I set this up right.
 var player = {
 	php:"25",
 	pitems:[""],
@@ -94,6 +100,8 @@ var player = {
 }
 //***********************************************************************
 //enemies
+//need to figure out how to make them show up using the enemyArray.name
+//I don't know if I set this up right.
 var creature = {
 	name:"creature",
 	ehp:8,
@@ -162,6 +170,7 @@ function isEnemy(){
 }
 
 //what type of enemy is in the room?
+//enemyAppear is throwing back [object object]?
 function whatEnemy(){
 	var enemyAppear = enemiesArray[Math.floor(Math.random() * 4) + 1];
 	if(enemyAppear < enemiesArray[0] || enemyAppear > enemiesArray[5]){
@@ -222,6 +231,7 @@ function mainGame(){
 	newRooms();
 	isEnemy();
 	if(isEnemyCheck){
+		//these are throwing back undefined values?
 		console.log(enemyAppear.name);
 		console.log(enemyAppear.ehp);
 	}

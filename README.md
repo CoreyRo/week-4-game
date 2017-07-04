@@ -5,20 +5,18 @@
 
 ## Rough todo list
 
-#### new room buttons, NSEW.
+### IN JAVASCRIPT
 
-### create elements for the start
-#### <p id="something"> You arrive at the dungeon entrance. Go in?
-#### buttons for "Go in" and "Quit"
-#### <p> You see '3' cooridors. One heads 'east' one heads 'north' and one heads 'west'.
-#### buttons come up for each direction, player choses a direction and the game rolls
+#### //**********Javascript Dungeon Survival Game**********
+#### //****************Dungeon Survival RPG****************
+#### //******************By Corey Rodems*******************
 
-### Navigation game rolls to be made
-#### direction choices (NSEW) so 1 - 4 random
+#### //figure out why the enemyAppear.X stuff throwing back undefined.
+#### //create the combat loop.
+#### //create the use potion function.
+#### //create the xp += for score
+#### //create the lose condition HP <=0 then end game and show total score.
 
-#### Enemy? yes or no, so 1-2 random
-
-#### if no enemy, loot? (HP Potion 1 out of 4 chance to appear)
 
 ### Combat game rolls to be made
 #### initiative roll: if theres an enemy, decides if player or enemy attacks first. 1-20 whoever is higher
