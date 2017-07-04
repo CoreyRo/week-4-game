@@ -42,9 +42,9 @@ $(document).ready(function($) {
 	var enemyAppear;
 	var edroppedItem;
 	var isEnemyCheck;
-	var exp;
+	var exp = 0;
 	var enemiesArray = [""];
-
+	var enemiesKilled = 0;
 
 
 	//***********************************************************************
@@ -221,6 +221,16 @@ $(document).ready(function($) {
 			
 		}
 		else if(enemyAppear.ehp <= 0){
+			enemiesKilled += 1;
+			player.xp += enemyAppear.xp;
+			console.log("Player XP: " + player.xp);
+			console.log("Enemies Killed: " + enemiesKilled);
+			alert("You've killed " + enemyAppear.name + "!");
+			mainGame();
+			
+		}
+		else{
+			alert("test else");
 			mainGame();
 		}
 		
@@ -247,7 +257,7 @@ $(document).ready(function($) {
 		}
 		console.log("how many rooms " + howMany);
 		console.log("rooms " + rooms);
-
+		alert("You see " + rooms.length+ " cooridors on your path. Choose one.");
 		for(var i = 0; i < rooms.length; i++){
 			var roomBtn = $("<button>");
 			roomBtn.addClass("room-button room room-button-color");
@@ -271,9 +281,10 @@ $(document).ready(function($) {
 	//Main game loop
 	function mainGame(){
 		
-		$("#mainGameBox").replaceWith('<div class="col-md-12" id="mainGameBox">')
+		$("#mainGameBox").replaceWith('<div class="col-md-12" id="mainGameBox">');
 		$("#whichWay").show();
-		newRooms();
+		
+		
 		isEnemy();
 		if(isEnemyCheck){
 			$("#whichWay").hide();
@@ -288,10 +299,12 @@ $(document).ready(function($) {
 
 		}
 		if(!isEnemyCheck){
+			newRooms();
 			$("#whichWay").show();
 			dropLoot();
 			$(".room").on("click", function(){
 			mainGame();
+			
 		});
 		}
 	}
