@@ -39,11 +39,12 @@ $(document).ready(function($) {
 	var edefense;
 	var eitemsLoot = [""];
 	var eloot;
-	var enemyAppear = [];
+	var enemyAppear;
 	var edroppedItem;
 	var isEnemyCheck;
 	var exp;
 	var enemiesArray = [""];
+
 
 
 	//***********************************************************************
@@ -73,19 +74,19 @@ $(document).ready(function($) {
 	//***********************************************************************
 	//attack rolls
 	function pattackRoll(){
-		var pattackr = Math.floor(Math.random() * 20) + 1;
+		pattackr = Math.floor(Math.random() * 20) + 1;
 	}
 
 	function pdamageRoll(){
-		var pdamager = Math.floor(Math.random() * 6) + 1;
+		pdamager = Math.floor(Math.random() * 6) + 1;
 	}
 
 	function eattackRoll(){
-		var eattackr = Math.floor(Math.random() * 20) + 1;
+		eattackr = Math.floor(Math.random() * 20) + 1;
 	}
 
 	function edamageRoll(){
-		var edamager = Math.floor(Math.random() * 6) + 1;
+		edamager = Math.floor(Math.random() * 6) + 1;
 	}
 
 	//***********************************************************************
@@ -122,7 +123,7 @@ $(document).ready(function($) {
 		eitems:[""],
 		eattack:eattack,
 		edamage:edamage,
-		edefense:10,
+		edefense:5,
 		xp:+5,
 	}
 
@@ -133,7 +134,7 @@ $(document).ready(function($) {
 		eitems:[""],
 		eattack:eattack,
 		edamage:edamage,
-		edefense:12,
+		edefense:6,
 		xp:+10,
 	}
 
@@ -144,7 +145,7 @@ $(document).ready(function($) {
 		eitems:[""],
 		eattack:eattack,
 		edamage:edamage,
-		edefense:15,
+		edefense:10,
 		xp:+20,
 	}
 
@@ -155,7 +156,7 @@ $(document).ready(function($) {
 		eitems:[""],
 		eattack:eattack,
 		edamage:edamage,
-		edefense:16,
+		edefense:12,
 		xp:+50,
 	}
 	var enemiesArray = [null, skeleton, rat, thief, hellHound];
@@ -180,10 +181,8 @@ $(document).ready(function($) {
 	//what type of enemy is in the room?
 	//enemyAppear is throwing back [object object]?
 	function whatEnemy(){
-		var enemyAppear = enemiesArray[Math.floor(Math.random() * 4) + 1];
-		if(enemyAppear < enemiesArray[0] || enemyAppear > enemiesArray[5]){
-			isEnemy();
-		}
+		enemyAppear = enemiesArray[Math.floor(Math.random() * 4) + 1];
+		
 		console.log("enemy " + enemyAppear);
 		console.log("A " + enemyAppear.name + " has appeared!");
 		console.log(enemyAppear.name);
@@ -192,23 +191,39 @@ $(document).ready(function($) {
 		//I need to make this less of a mess. I'm having trouble doing this.
 		var enemyAppearText = ('<div class="row"> <div class="col-md-4"></div> <div id="appearEnemy" class="col-md-4"></div> <div class="col-md-4"></div></div>');
 		$("#mainGameBox").append(enemyAppearText);
-		$("#appearEnemy").append("<h2>" + enemyAppear.name + "</h2>" + '<img class="center-block" id="eimg" ' + enemyAppear.eimg + ' width="150" height="150" >' + "<h3>" + enemyAppear.ehp + " HP</h3>" + '<div class="row"> <div class="col-md-4"></div> <div id="combatBtnDiv" class="col-md-4"><button type="button" id="attackBtn" class="center-block btn btn-danger">Attack!</button></div><div class="col-md-4"></div></div>');
+		$("#appearEnemy").append("<h2>" + enemyAppear.name + "</h2>" + '<img class="center-block" id="eimg" ' + enemyAppear.eimg + ' width="150" height="150" >' + '<h3 id="enemyHpH3">' + enemyAppear.ehp + " HP</h3>" + '<div class="row"> <div class="col-md-4"></div> <div id="combatBtnDiv" class="col-md-4"><button type="button" id="attackBtn" class="center-block btn btn-danger">Attack!</button></div><div class="col-md-4"></div></div>');
 		
 	}
 	//combat
 		
 	//combat functions
-	//not working with the click function down in the mainGame loop? 
+	//Why doesn't it stop when reaching 0? It gets to 0 or <0 then you must click once more in order to clear.
+	//I am trying to get it to end combat as soon as ehp <= 0.
 	function combat(){
 	
 		pattackRoll();
-		console.log(pattackr);
-		if(pattackr > enemyAppear.edefense){
-			pdamageRoll();
-			console.log(pdamager);
-			enemyAppear.ehp -= pdamager;
+		console.log("attack roll " + pattackr);
+		console.log("Enemy Defense: " + enemyAppear.edefense);
+		console.log("Enemy HP: " + enemyAppear.ehp);
+		if(enemyAppear.ehp > 0){
+
+			if(pattackr > enemyAppear.edefense){
+				pdamageRoll();
+				console.log("attack damage: " + pdamager);
+				enemyAppear.ehp -= pdamager;
+				console.log("enemyhp: " + enemyAppear.ehp);
+				$("#enemyHpH3").replaceWith('<h3 id="enemyHpH3">' + enemyAppear.ehp + " HP</h3>");
+			}
+			else{
+				alert("Missed!")
+			}
+
+			
 		}
-	
+		else if(enemyAppear.ehp <= 0){
+			mainGame();
+		}
+		
 	}
 
 	//***********************************************************************
@@ -257,7 +272,7 @@ $(document).ready(function($) {
 	function mainGame(){
 		
 		$("#mainGameBox").replaceWith('<div class="col-md-12" id="mainGameBox">')
-
+		$("#whichWay").show();
 		newRooms();
 		isEnemy();
 		if(isEnemyCheck){
@@ -266,14 +281,10 @@ $(document).ready(function($) {
 			whatEnemy();
 			//why does enemyAppear.ehp come up undefined if I just ran the whatEnemy()? I thought that would create the enemy.
 			console.log("Test enemy HP: " + enemyAppear.ehp);
-
-			if(enemyAppear.ehp > 0){
-				
-				$("#attackBtn").on("click", function(){
-					combat();
-				});
-			}
-		
+			$("#attackBtn").on("click", function(){
+				combat();
+			});
+			
 
 		}
 		if(!isEnemyCheck){
