@@ -11,6 +11,7 @@
 //****************************************************************
 	//vars
 $(document).ready(function($) {
+	$("#hudRow").hide();
 	var rooms = [""];
 	var newRooms;
 	var whichWay;
@@ -61,6 +62,8 @@ $(document).ready(function($) {
 		console.log("dropped " + droppedItem);
 		console.log("Gold: " + gold);
 		console.log("Potions: " + potion);
+		$("#goldh3").html("Gold: " + gold);
+		$("#hpPotionsh3").html("HP Potions: " + potion);
 	}
 
 	function edropLoot(){
@@ -218,13 +221,15 @@ $(document).ready(function($) {
 				alert("Missed!")
 			}
 
-			
+		//something is broken around here, you can get free kills, the timing is off maybe?	
 		}
 		else if(enemyAppear.ehp <= 0){
 			enemiesKilled += 1;
 			player.xp += enemyAppear.xp;
 			console.log("Player XP: " + player.xp);
 			console.log("Enemies Killed: " + enemiesKilled);
+			$("#xph3").html("XP: " + player.xp);
+			$("#enemiesKilledh3").html("Enemies Killed: " + enemiesKilled);
 			alert("You've killed " + enemyAppear.name + "!");
 			mainGame();
 			
@@ -280,7 +285,11 @@ $(document).ready(function($) {
 
 	//Main game loop
 	function mainGame(){
-		
+		$("#goldh3").html("Gold: " + gold);
+		$("#hpPotionsh3").html("HP Potions: " + potion);
+		$("#xph3").html("XP: " + player.xp);
+		$("#enemiesKilledh3").html("Enemies Killed: " + enemiesKilled);
+		$("#hudRow").show();
 		$("#mainGameBox").replaceWith('<div class="col-md-12" id="mainGameBox">');
 		$("#whichWay").show();
 		
@@ -296,7 +305,7 @@ $(document).ready(function($) {
 				combat();
 			});
 			
-
+		//Something is broken around here. You can get free kills.
 		}
 		if(!isEnemyCheck){
 			newRooms();
@@ -304,7 +313,7 @@ $(document).ready(function($) {
 			dropLoot();
 			$(".room").on("click", function(){
 			mainGame();
-			
+
 		});
 		}
 	}
