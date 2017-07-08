@@ -248,11 +248,12 @@ $(document).ready(function($) {
 		// if(currentEnemy.ehp > 0){
 
 			if(pattackr > currentEnemy.edefense){
+				$("#playerAttack").replaceWith('<h3 id="playerAttack">Your attack hits ' + currentEnemy.name + '!</h3>');
 
 				pdamageRoll();
 				$("#killed").hide();
 				console.log("attack damage: " + pdamager);
-				$("#playerDamage").replaceWith('Your attack hits ' + currentEnemy.name + '!');
+				$("#playerDamage").replaceWith('<h3 id="playerDamage">You did ' + pdamager +' to ' + currentEnemy.name + '!</h3>');
 
 				currentEnemy.ehp -= pdamager;
 				console.log("enemyhp: " + currentEnemy.ehp);
@@ -278,7 +279,7 @@ $(document).ready(function($) {
 				
 			}
 			else{
-				$("#playerAttack").replaceWith(currentEnemy.name + ' dodged your attatck!');
+				$("#playerAttack").replaceWith('<h3 id="playerAttack">' + currentEnemy.name + ' dodged your attack!</h3>');
 				// $("#missed").
 				console.log("Missed attack. Attack roll " + pattackr + " < " + currentEnemy.edefense);
 				// alert("Missed!")
