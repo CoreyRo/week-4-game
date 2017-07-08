@@ -33,14 +33,14 @@ $(document).ready(function($) {
 	var gold = 0;
 	var potion = 2;
 	//enemy vars
-	var ehp;
-	var eitems = [""];
-	var eattack;
-	var edamage;
-	var edefense;
-	var eitemsLoot = [""];
-	var eloot;
-	var enemyAppear;
+	// var ehp;
+	// var eitems = [""];
+	// var eattack;
+	// var edamage;
+	// var edefense;
+	// var eitemsLoot = [""];
+	// var eloot;
+	// var enemyAppear;
 	var edroppedItem;
 	var isEnemyCheck;
 	var exp = 0;
@@ -75,7 +75,7 @@ $(document).ready(function($) {
 	}
 
 	//***********************************************************************
-	//attack rolls
+	//player rolls
 	function pattackRoll(){
 		pattackr = Math.floor(Math.random() * 20) + 1;
 	}
@@ -84,12 +84,14 @@ $(document).ready(function($) {
 		pdamager = Math.floor(Math.random() * 6) + 1;
 	}
 
+
+	//enemy rolls
 	function eattackRoll(){
-		eattackr = Math.floor(Math.random() * 20) + 1;
+		currentEnemy.eattack = Math.floor(Math.random() * 20) + 1;
 	}
 
 	function edamageRoll(){
-		edamager = Math.floor(Math.random() * 6) + 1;
+		currentEnemy.edamage = Math.floor(Math.random() * 6) + 1;
 	}
 
 	//***********************************************************************
@@ -108,61 +110,72 @@ $(document).ready(function($) {
 	//enemies
 	//need to figure out how to make them show up using the enemyArray.name
 	//I don't know if I set this up right.
-	// var creature = {
-	// 	name:"creature",
-	// 	eimg:'scr="http://via.placeholder.com/150x150"',
-	// 	ehp:8,
-	// 	eitems:[""],
-	// 	eattack:eattack,
-	// 	edamage:edamage,
-	// 	edefense:8,
-	// 	xp:+3,
-	// }
+	var creature = {
+		id:0,
+		name:"creature",
+		eimg:'scr="http://via.placeholder.com/150x150"',
+		ehp:8,
+		eitems:[""],
+		eattack:0,
+		edamage:0,
+		edefense:8,
+		xp:+3,
+	}
+
+	// function regen({
+
+	// });
 
 	var skeleton = {
+		id:1,
 		name:"Weak Skeleton",
 		eimg:'scr="../img/150x150.png"',
 		ehp:10,
 		eitems:[""],
-		eattack:eattack,
-		edamage:edamage,
+		eattack:0,
+		edamage:0,
 		edefense:5,
 		xp:+5,
 	}
 
 	var rat = {
+		id:2,
 		name:"Large Rat",
 		eimg:'scr="../img/150x150.png"',
 		ehp:14,
 		eitems:[""],
-		eattack:eattack,
-		edamage:edamage,
+		eattack:0,
+		edamage:0,
 		edefense:6,
 		xp:+10,
 	}
 
 	var thief = {
+		id:3,
 		name:"Thief",
 		eimg:'scr="../img/150x150.png"',
 		ehp:16,
 		eitems:[""],
-		eattack:eattack,
-		edamage:edamage,
+		eattack:0,
+		edamage:0,
 		edefense:10,
 		xp:+20,
 	}
 
 	var hellHound = {
-		name:"Hell Hound",
-		eimg:'scr="../img/150x150.png"',
-		ehp:18,
-		eitems:[""],
-		eattack:eattack,
-		edamage:edamage,
-		edefense:12,
-		xp:+50,
+	
+			id:4,
+			name:"Hell Hound",
+			eimg:'scr="../img/150x150.png"',
+			ehp:18,
+			eitems:[""],
+			eattack:0,
+			edamage:0,
+			edefense:12,
+			xp:+50,
+		
 	}
-	var enemiesArray = [null, skeleton, rat, thief, hellHound];
+	var enemiesArray = [creature, skeleton, rat, thief, hellHound];
 
 	//***********************************************************************
 	//is there an enemy in this room?
@@ -183,10 +196,20 @@ $(document).ready(function($) {
 
 	//what type of enemy is in the room?
 	//enemyAppear is throwing back [object object]?
+	//Not reseting Object properties when finished?
+	function regen(current){
+		for(var i = 0; i < enemiesArray.length; i++){
+			if(current.id === enemiesArray[i].id){
+				current = enemiesArray[i];
+			}
+		}
+
+	}
+
 	function whatEnemy(){
-		enemyAppear = enemiesArray[Math.floor(Math.random() * 4) + 1];
-		
-		console.log("enemy " + enemyAppear);
+		var enemyAppear = enemiesArray[Math.floor(Math.random() * 4) + 1];
+			
+		console.log("enemy ", enemyAppear);
 		console.log("A " + enemyAppear.name + " has appeared!");
 		console.log(enemyAppear.name);
 		console.log(enemyAppear.ehp);
@@ -195,6 +218,11 @@ $(document).ready(function($) {
 		var enemyAppearText = ('<div class="row"> <div class="col-md-4"></div> <div id="appearEnemy" class="col-md-4"></div> <div class="col-md-4"></div></div>');
 		$("#mainGameBox").append(enemyAppearText);
 		$("#appearEnemy").append("<h2>" + enemyAppear.name + "</h2>" + '<img class="center-block" id="eimg" ' + enemyAppear.eimg + ' width="150" height="150" >' + '<h3 id="enemyHpH3">' + enemyAppear.ehp + " HP</h3>" + '<div class="row"> <div class="col-md-4"></div> <div id="combatBtnDiv" class="col-md-4"><button type="button" id="attackBtn" class="center-block btn btn-danger">Attack!</button></div><div class="col-md-4"></div></div>');
+		console.log("Test enemy HP: " + enemyAppear.ehp);
+		$("#attackBtn").on("click", function(){
+				combat(enemyAppear);
+			});
+			
 		
 	}
 	//combat
@@ -202,42 +230,55 @@ $(document).ready(function($) {
 	//combat functions
 	//Why doesn't it stop when reaching 0? It gets to 0 or <0 then you must click once more in order to clear.
 	//I am trying to get it to end combat as soon as ehp <= 0.
-	function combat(){
+	function combat(currentEnemy){
 	
 		pattackRoll();
 		console.log("attack roll " + pattackr);
-		console.log("Enemy Defense: " + enemyAppear.edefense);
-		console.log("Enemy HP: " + enemyAppear.ehp);
-		if(enemyAppear.ehp > 0){
+		console.log("Enemy Defense: " + currentEnemy.edefense);
+		console.log("Enemy HP: " + currentEnemy.ehp);
+		// if(currentEnemy.ehp > 0){
 
-			if(pattackr > enemyAppear.edefense){
+			if(pattackr > currentEnemy.edefense){
 				pdamageRoll();
 				console.log("attack damage: " + pdamager);
-				enemyAppear.ehp -= pdamager;
-				console.log("enemyhp: " + enemyAppear.ehp);
-				$("#enemyHpH3").replaceWith('<h3 id="enemyHpH3">' + enemyAppear.ehp + " HP</h3>");
+				currentEnemy.ehp -= pdamager;
+				console.log("enemyhp: " + currentEnemy.ehp);
+				$("#enemyHpH3").replaceWith('<h3 id="enemyHpH3">' + currentEnemy.ehp + " HP</h3>");
+				if(currentEnemy.ehp <= 0){
+
+					enemiesKilled += 1;
+					player.xp += currentEnemy.xp;
+					console.log("Player XP: " + player.xp);
+					console.log("Enemies Killed: " + enemiesKilled);
+					$("#xph3").html("XP: " + player.xp);
+					$("#enemiesKilledh3").html("Enemies Killed: " + enemiesKilled);
+					alert("You've killed " + currentEnemy.name + "!");
+					regen(currentEnemy);
+					mainGame();
+				}
+				
 			}
 			else{
 				alert("Missed!")
 			}
 
 		//something is broken around here, you can get free kills, the timing is off maybe?	
-		}
-		else if(enemyAppear.ehp <= 0){
-			enemiesKilled += 1;
-			player.xp += enemyAppear.xp;
-			console.log("Player XP: " + player.xp);
-			console.log("Enemies Killed: " + enemiesKilled);
-			$("#xph3").html("XP: " + player.xp);
-			$("#enemiesKilledh3").html("Enemies Killed: " + enemiesKilled);
-			alert("You've killed " + enemyAppear.name + "!");
-			mainGame();
+		// }
+		// else{
+		// 	enemiesKilled += 1;
+		// 	player.xp += currentEnemy.xp;
+		// 	console.log("Player XP: " + player.xp);
+		// 	console.log("Enemies Killed: " + enemiesKilled);
+		// 	$("#xph3").html("XP: " + player.xp);
+		// 	$("#enemiesKilledh3").html("Enemies Killed: " + enemiesKilled);
+		// 	alert("You've killed " + currentEnemy.name + "!");
+		// 	mainGame();
 			
-		}
-		else{
-			alert("test else");
-			mainGame();
-		}
+		// }
+		// else{
+		// 	alert("test else");
+		// 	mainGame();
+		// }
 		
 	}
 
@@ -285,6 +326,7 @@ $(document).ready(function($) {
 
 	//Main game loop
 	function mainGame(){
+		console.log(enemiesArray);
 		$("#goldh3").html("Gold: " + gold);
 		$("#hpPotionsh3").html("HP Potions: " + potion);
 		$("#xph3").html("XP: " + player.xp);
@@ -299,11 +341,7 @@ $(document).ready(function($) {
 			$("#whichWay").hide();
 
 			whatEnemy();
-			//why does enemyAppear.ehp come up undefined if I just ran the whatEnemy()? I thought that would create the enemy.
-			console.log("Test enemy HP: " + enemyAppear.ehp);
-			$("#attackBtn").on("click", function(){
-				combat();
-			});
+			
 			
 		//Something is broken around here. You can get free kills.
 		}
