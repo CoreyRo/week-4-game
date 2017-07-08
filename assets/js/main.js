@@ -129,53 +129,51 @@ $(document).ready(function($) {
 	var skeleton = {
 		id:1,
 		name:"Weak Skeleton",
-		eimg:'scr="../img/150x150.png"',
+		eimg:'<img class="center-block" id="eimg" src="assets/img/skel.gif" width="150" height="150">',
 		ehp:10,
 		eitems:[""],
 		eattack:0,
 		edamage:0,
-		edefense:5,
+		edefense:3,
 		xp:+5,
 	}
 
 	var rat = {
 		id:2,
 		name:"Large Rat",
-		eimg:'scr="../img/150x150.png"',
+		eimg:'<img class="center-block" id="eimg" src="assets/img/rat.gif" width="150" height="150">',
 		ehp:14,
 		eitems:[""],
 		eattack:0,
 		edamage:0,
-		edefense:6,
+		edefense:4,
 		xp:+10,
 	}
 
 	var thief = {
 		id:3,
-		name:"Thief",
-		eimg:'scr="../img/150x150.png"',
+		name:"Dungeon Keeper",
+		eimg:'<img class="center-block" id="eimg" src="assets/img/warrior.gif" width="150" height="150">',
 		ehp:16,
 		eitems:[""],
 		eattack:0,
 		edamage:0,
-		edefense:10,
+		edefense:6,
 		xp:+20,
 	}
 
-	var hellHound = {
-	
-			id:4,
-			name:"Hell Hound",
-			eimg:'scr="../img/150x150.png"',
-			ehp:18,
-			eitems:[""],
-			eattack:0,
-			edamage:0,
-			edefense:12,
-			xp:+50,
-		
+	var demonLord = {
+		id:4,
+		name:"Demon Lord",
+		eimg:'<img class="center-block" id="eimg" src="assets/img/demon.gif" width="150" height="150">',
+		ehp:18,
+		eitems:[""],
+		eattack:0,
+		edamage:0,
+		edefense:8,
+		xp:+50,
 	}
-	var enemiesArray = [creature, skeleton, rat, thief, hellHound];
+	var enemiesArray = [creature, skeleton, rat, thief, demonLord];
 
 	//***********************************************************************
 	//is there an enemy in this room?
@@ -197,10 +195,18 @@ $(document).ready(function($) {
 	//what type of enemy is in the room?
 	//enemyAppear is throwing back [object object]?
 	//Not reseting Object properties when finished?
+
+	//supposed to reset enemy ehp and stats, but it's not
 	function regen(current){
 		for(var i = 0; i < enemiesArray.length; i++){
 			if(current.id === enemiesArray[i].id){
 				current = enemiesArray[i];
+				skeleton.ehp = 10;
+				rat.ehp = 14;
+				thief.ehp = 16;
+				demonLord.ehp = 18;
+				console.log("current enemy for regen: " + current.name);
+				console.log("HP now?: " + current.ehp);
 			}
 		}
 
@@ -215,10 +221,13 @@ $(document).ready(function($) {
 		console.log(enemyAppear.ehp);
 
 		//I need to make this less of a mess. I'm having trouble doing this.
-		var enemyAppearText = ('<div class="row"> <div class="col-md-4"></div> <div id="appearEnemy" class="col-md-4"></div> <div class="col-md-4"></div></div>');
+		var enemyAppearText = ('<div class="row"> <div id="playerInfo" class="col-md-4"><h2 id="playerAttack"></h2><h2 id="playerDamage"></h2></div> <div id="appearEnemy" class="col-md-4"></div> <div id="enemyInfo" class="col-md-4"></div></div>');
 		$("#mainGameBox").append(enemyAppearText);
-		$("#appearEnemy").append("<h2>" + enemyAppear.name + "</h2>" + '<img class="center-block" id="eimg" ' + enemyAppear.eimg + ' width="150" height="150" >' + '<h3 id="enemyHpH3">' + enemyAppear.ehp + " HP</h3>" + '<div class="row"> <div class="col-md-4"></div> <div id="combatBtnDiv" class="col-md-4"><button type="button" id="attackBtn" class="center-block btn btn-danger">Attack!</button></div><div class="col-md-4"></div></div>');
+		$("#appearEnemy").append('<h3 id="killed"></h3>');
+
+		$("#appearEnemy").append("<h2>" + enemyAppear.name + "</h2>" + enemyAppear.eimg + '<h3 id="enemyHpH3">' + enemyAppear.ehp + " HP</h3>" + '<div class="row"> <div class="col-md-4"></div> <div id="combatBtnDiv" class="col-md-4"><button type="button" id="attackBtn" class="center-block btn btn-danger">Attack!</button></div><div class="col-md-4"></div></div>');
 		console.log("Test enemy HP: " + enemyAppear.ehp);
+
 		$("#attackBtn").on("click", function(){
 				combat(enemyAppear);
 			});
@@ -231,7 +240,7 @@ $(document).ready(function($) {
 	//Why doesn't it stop when reaching 0? It gets to 0 or <0 then you must click once more in order to clear.
 	//I am trying to get it to end combat as soon as ehp <= 0.
 	function combat(currentEnemy){
-	
+		
 		pattackRoll();
 		console.log("attack roll " + pattackr);
 		console.log("Enemy Defense: " + currentEnemy.edefense);
@@ -239,27 +248,40 @@ $(document).ready(function($) {
 		// if(currentEnemy.ehp > 0){
 
 			if(pattackr > currentEnemy.edefense){
+
 				pdamageRoll();
+				$("#killed").hide();
 				console.log("attack damage: " + pdamager);
+				$("#playerDamage").replaceWith('Your attack hits ' + currentEnemy.name + '!');
+
 				currentEnemy.ehp -= pdamager;
 				console.log("enemyhp: " + currentEnemy.ehp);
 				$("#enemyHpH3").replaceWith('<h3 id="enemyHpH3">' + currentEnemy.ehp + " HP</h3>");
 				if(currentEnemy.ehp <= 0){
-
+					$("#killed").show();
+					$("#killed").text("You've killed " + currentEnemy.name + "!")
+					$("#enemyHpH3").replaceWith('<h3 id="enemyHpH3">' + "0 HP</h3>");
 					enemiesKilled += 1;
 					player.xp += currentEnemy.xp;
 					console.log("Player XP: " + player.xp);
 					console.log("Enemies Killed: " + enemiesKilled);
 					$("#xph3").html("XP: " + player.xp);
 					$("#enemiesKilledh3").html("Enemies Killed: " + enemiesKilled);
-					alert("You've killed " + currentEnemy.name + "!");
+					console.log("You've killed " + currentEnemy.name + "!");
 					regen(currentEnemy);
-					mainGame();
+					setTimeout(wait, 2000);
+					function wait(){
+						mainGame();
+					}
+					// mainGame();
 				}
 				
 			}
 			else{
-				alert("Missed!")
+				$("#playerAttack").replaceWith(currentEnemy.name + ' dodged your attatck!');
+				// $("#missed").
+				console.log("Missed attack. Attack roll " + pattackr + " < " + currentEnemy.edefense);
+				// alert("Missed!")
 			}
 
 		//something is broken around here, you can get free kills, the timing is off maybe?	
