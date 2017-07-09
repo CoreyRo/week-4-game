@@ -331,8 +331,8 @@ $(document).ready(function($) {
 		//enemy
 		
 			if(currentEnemy.ehp <= 0){
-				$("#attackBtn").hide();
-				$("#waitAttackBtn").hide();
+				$("#combatBtnDiv").hide();
+				// $("#waitAttackBtn").hide();
 				$("#playerAttack").hide();
 				$("#playerDamage").hide();
 				$("#enemyName").hide();
@@ -354,6 +354,25 @@ $(document).ready(function($) {
 				function waity(){
 					$("#eimg").hide();
 					mainGame();
+				}
+			}
+			else if(playerCombat.php <= 0){
+				$("#attackBtn").hide();
+				$("#waitAttackBtn").hide();
+				$("#playerAttack").hide();
+				$("#playerDamage").hide();
+				$("#enemyName").hide();
+				$("#playerHP").replaceWith('<h3 id="playerHP">YOU ARE DEAD</h3>');
+					
+				setTimeout(waity, 2500);
+				function waity(){
+					var death = confirm("You have been killed. Play again?");
+					if (death){
+						window.location.replace("game.html")
+					}
+					else{
+						window.location.replace("index.html")
+					}
 				}
 			}
 
