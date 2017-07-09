@@ -253,7 +253,7 @@ $(document).ready(function($) {
 	function combat(currentEnemy){
 		$("#attackBtn").hide();
 		$("#waitAttackBtn").show();
-		setTimeout(waitx, 2500);
+		setTimeout(waitx, 2000);
 			function waitx(){
 				$("#waitAttackBtn").hide();
 				$("#attackBtn").show();
@@ -270,9 +270,9 @@ $(document).ready(function($) {
 				pdamageRoll();
 				$("#killed").hide();
 				console.log("attack damage: " + pdamager);
-				$("#playerDamage").replaceWith('<h3 id="playerDamage">You did ' + pdamager +' to ' + currentEnemy.name + '!</h3>');
-				setTimeout(wait, 2000);
-					function wait(){
+				$("#playerDamage").replaceWith('<h3 id="playerDamage">You did ' + pdamager +' damage to ' + currentEnemy.name + '!</h3>');
+				setTimeout(waitv, 1800);
+					function waitv(){
 						$("#playerDamage").replaceWith('<h3 id="playerDamage"></h3>');
 						
 
@@ -297,7 +297,7 @@ $(document).ready(function($) {
 					$("")
 					
 					regen(currentEnemy);
-					setTimeout(waity, 2000);
+					setTimeout(waity, 2500);
 					function waity(){
 						mainGame();
 					}
@@ -307,7 +307,7 @@ $(document).ready(function($) {
 			}
 			else{
 				$("#playerAttack").replaceWith('<h3 id="playerAttack">' + currentEnemy.name + ' dodged your attack!</h3>');
-				setTimeout(wait, 2000);
+				setTimeout(wait, 1600);
 					function wait(){
 						$("#playerAttack").replaceWith('<h3 id="playerDamage"></h3>');
 						
