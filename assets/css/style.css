@@ -2,7 +2,7 @@ body{
 	background-image: url("../img/bg1.jpg");
 
 	
-
+	color:#fff;
 	font-family: 'Josefin Sans', sans-serif;
 	font-size: 12pt;
 }
@@ -14,7 +14,47 @@ a{
 
 h1, h2, h3, h4{
 	text-align: center;
+	font-family: 'Press Start 2P', cursive !important;
+	color: #ffb800 !important;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;
+	
 
+}
+h4{
+	font-size:10pt !important;
+}
+h3{
+	font-size:12pt !important;
+}
+h2{
+	font-size: 16pt !important;
+}
+
+#goldh3, #hpPotionsh3, #xph3, #enemiesKilledh3{
+	text-align: left;
+}
+#hpPotionsh3{
+
+}
+.border-radius{
+	border-radius:10px;
+}
+
+
+
+#mainhead{
+	
+	padding: 10px 0 10px 0;
+    margin-top: inherit;
+}
+
+.jumbotron{
+	background-color:#444 !important;
+	border:1px solid #666;
+}
+
+#help{
+	font-size: 12pt;
 }
 
 .row{

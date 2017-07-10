@@ -68,13 +68,13 @@ $(document).ready(function($) {
 		console.log("dropped " + droppedItem);
 		console.log("Gold: " + gold);
 		console.log("Potions: " + potion);
-		$("#playerAttack").show();
+		// $("#itemPopup").show();
 		$("#goldh3").html("Gold: " + gold);
 		$("#hpPotionsh3").html("HP Potions: " + potion);
 		$("#whichWay").append('<h2 id="itemPopup">You found ' + droppedItem + '!</h2>');
 			setTimeout(waitl, 1500);
 				function waitl(){
-					$("#playerAttack").hide();
+					$("#itemPopup").remove();
 				}
 		}
 
@@ -290,7 +290,7 @@ $(document).ready(function($) {
 		if(potion >= 1){
 			player.php += currentHP;
 			potion = potion - 1;
-			$("#hpPotionsh3").replaceWith('<h3 id="hpPotionsh3">HP Potions: ' + potion + '</h3>');
+			$("#hpPotionsh3").replaceWith('<h3 id="hpPotionsh3">Potions: ' + potion + '</h3>');
 			$("#playerHP").replaceWith('<h2 id="playerHP">' + player.php + " HP</h3>");
 			console.log("heal " + currentHP);
 			console.log("potions " + potion);
@@ -334,14 +334,14 @@ $(document).ready(function($) {
 			pdamageRoll();
 			console.log("attack damage: " + pdamager);
 			$("#playerDamage").show();
-			$("#playerDamage").replaceWith('<h3 id="playerDamage">You did ' + pdamager +' damage to ' + currentEnemy.name + '!</h3>');
+			$("#playerDamage").replaceWith('<h4 id="playerDamage">You did ' + pdamager +' damage to ' + currentEnemy.name + '!</h4>');
 			setTimeout(waitv, 1600);
 				function waitv(){
 					$("#playerDamage").hide();
 				}
 			currentEnemy.ehp -= pdamager;
 			console.log("enemyhp: " + currentEnemy.ehp);
-			$("#enemyHpH3").replaceWith('<h3 id="enemyHpH3">' + currentEnemy.ehp + " HP</h3>");
+			$("#enemyHpH3").replaceWith('<h4 id="enemyHpH3">' + currentEnemy.ehp + " HP</h4>");
 		
 
 		//enemy
@@ -363,7 +363,7 @@ $(document).ready(function($) {
 
 					console.log("attack damage: " + enemyDamages);
 					$("#enemyDamage").show();
-					$("#enemyDamage").replaceWith('<h3 id="enemyDamage">' + currentEnemy.name + ' did ' + enemyDamages +' damage to you!</h3>');
+					$("#enemyDamage").replaceWith('<h4 id="enemyDamage">' + currentEnemy.name + ' did ' + enemyDamages +' damage to you!</h4>');
 					setTimeout(waitb, 1300);
 						function waitb(){
 							$("#enemyDamage").hide();
@@ -374,7 +374,7 @@ $(document).ready(function($) {
 				}
 				else{
 					$("#enemyAttack").show();
-					$("#enemyAttack").replaceWith('<h3 id="enemyAttack">' + currentEnemy.name + ' Missed their attack!</h3>');
+					$("#enemyAttack").replaceWith('<h4 id="enemyAttack">' + currentEnemy.name + ' Missed their attack!</h4>');
 					console.log("Missed attack. Attack roll " + eattackr + " < " + playerCombat.pdefense);
 					setTimeout(waitg, 1200);
 						function waitg(){
@@ -470,7 +470,7 @@ $(document).ready(function($) {
 		
 		for(var i = 0; i < rooms.length; i++){
 			var roomBtn = $("<button>");
-			roomBtn.addClass("room-button room room-button-color");
+			roomBtn.addClass("btn btn-default btn-lg room-button room room-button-color");
 			roomBtn.attr("data-room", rooms[i]);
 			roomBtn.attr("id", rooms[i]);
 			roomBtn.text(rooms[i]);
@@ -493,9 +493,9 @@ $(document).ready(function($) {
 		console.log(enemiesArray);
 		$("#playerHP").html(player.php + " HP");
 		$("#goldh3").html("Gold: " + gold);
-		$("#hpPotionsh3").html("HP Potions: " + potion);
+		$("#hpPotionsh3").html("Potions: " + potion);
 		$("#xph3").html("XP: " + player.xp);
-		$("#enemiesKilledh3").html("Enemies Killed: " + enemiesKilled);
+		$("#enemiesKilledh3").html("Kills: " + enemiesKilled);
 		$("#hudRow").show();
 		$("#mainGameBox").replaceWith('<div class="col-md-12" id="mainGameBox">');
 		$("#whichWay").show();
