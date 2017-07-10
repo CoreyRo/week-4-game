@@ -70,7 +70,7 @@ $(document).ready(function($) {
 		console.log("Potions: " + potion);
 		// $("#itemPopup").show();
 		$("#goldh3").html("Gold: " + gold);
-		$("#hpPotionsh3").html("HP Potions: " + potion);
+		$("#hpPotionsh3").html("Potions: " + potion);
 		$("#whichWay").append('<h2 id="itemPopup">You found ' + droppedItem + '!</h2>');
 			setTimeout(waitl, 1500);
 				function waitl(){
@@ -153,8 +153,8 @@ $(document).ready(function($) {
 		eitems:[""],
 		eattack:0,
 		edamage:0,
-		edefense:2,
-		xp:+2,
+		edefense:1,
+		xp:+5,
 	}
 
 	var rat = {
@@ -168,7 +168,7 @@ $(document).ready(function($) {
 		eattack:0,
 		edamage:1,
 		edefense:3,
-		xp:+5,
+		xp:+10,
 	}
 
 	var thief = {
@@ -181,7 +181,7 @@ $(document).ready(function($) {
 		eitems:[""],
 		eattack:0,
 		edamage:3,
-		edefense:6,
+		edefense:5,
 		xp:+25,
 	}
 
@@ -206,10 +206,6 @@ $(document).ready(function($) {
 		var isEnemyHere = Math.floor(Math.random() * 2) + 1;
 		if(isEnemyHere === 1){
 			console.log("no enemy in this room");
-			setTimeout(waitl, 1000);
-				function waitl(){
-					alert("No enemies in this room");
-				}
 			isEnemyCheck = false;
 
 		}
@@ -241,13 +237,13 @@ $(document).ready(function($) {
 	}
 	//***************************Difficulty Scale***************************
 	function whatEnemy(){
-		if(player.xp <= 30){
+		if(player.xp <= 25){
 			var enemyAppear = enemiesArray[Math.floor(Math.random() * 2) + 1];
 		}
-		else if(player.xp >= 30){
+		else if(player.xp >= 50){
 			var enemyAppear = enemiesArray[Math.floor(Math.random() * 3) + 1];
 		}
-		else if(player.xp >= 50){
+		else{
 			var enemyAppear = enemiesArray[Math.floor(Math.random() * 4) + 1];
 		}
 		
@@ -317,7 +313,7 @@ $(document).ready(function($) {
 
 		$("#attackBtn").hide();
 		$("#waitAttackBtn").show();
-		setTimeout(waitx, 2800);
+		setTimeout(waitx, 2500);
 			function waitx(){
 				$("#waitAttackBtn").hide();
 				$("#attackBtn").show();
@@ -385,7 +381,6 @@ $(document).ready(function($) {
 		}
 		if(currentEnemy.ehp <= 0){
 			$("#combatBtnDiv").hide();
-			// $("#waitAttackBtn").hide();
 			$("#playerAttack").hide();
 			$("#playerDamage").hide();
 			$("#enemyName").hide();
@@ -398,7 +393,7 @@ $(document).ready(function($) {
 			console.log("Player XP: " + playerCombat.xp);
 			console.log("Enemies Killed: " + enemiesKilled);
 			$("#xph3").html("XP: " + playerCombat.xp);
-			$("#enemiesKilledh3").html("Enemies Killed: " + enemiesKilled);
+			$("#enemiesKilledh3").html("Killed: " + enemiesKilled);
 			console.log("You've killed " + currentEnemy.name + "!");
 			
 			
@@ -509,7 +504,6 @@ $(document).ready(function($) {
 			whatEnemy();
 			
 			
-		//Something is broken around here. You can get free kills.
 		}
 		if(!isEnemyCheck){
 			newRooms();
