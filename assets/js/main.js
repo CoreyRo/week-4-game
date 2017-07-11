@@ -72,6 +72,7 @@ $(document).ready(function($) {
 			if(droppedItem === "HP Potion"){
 				potion += 1;
 			}
+		$(".room-button").hide();
 		console.log("dropped " + droppedItem);
 		console.log("Gold: " + gold);
 		console.log("Potions: " + potion);
@@ -82,6 +83,7 @@ $(document).ready(function($) {
 			setTimeout(waitl, 1500);
 				function waitl(){
 					$("#itemPopup").replaceWith('<h2 id="itemPopup"> </h2>');
+					$(".room-button").show();
 				}
 		}
 
@@ -124,6 +126,7 @@ $(document).ready(function($) {
 		pdamage:pdamager,
 		pdefense:10,
 		xp:0,
+		lvl:1,
 		
 	}
 
@@ -314,9 +317,7 @@ $(document).ready(function($) {
 		}
 			
 	});
-	if(exp >= 25){
-		alert("You can level up!")
-	}
+	
 	$("#lvlUpBtn").on("click", function(){
 		console.log("playerxp " + player.xp);
 		if(exp >= 25){
@@ -324,6 +325,10 @@ $(document).ready(function($) {
 				player.tphp += 15;
 				player.php = player.tphp;
 				alert("You've leveled up");
+
+				exp = 0;
+				console.log("exp " + exp);
+				mainGame();
 		}	
 		else{
 			alert("You can only level up every 25xp!");
@@ -438,34 +443,51 @@ $(document).ready(function($) {
 					}
 			}
 			else if(currentEnemy.ehp <= 0){
-					$("#combatBtnDiv").hide();
-					$("#playerAttack").hide();
-					$("#playerDamage").hide();
-					$("#enemyName").hide();
-					$("#enemyHpH3").replaceWith('<h3 id="enemyHpH3">' + "0 HP</h3>");
-					$("#eimg").replaceWith('<img class="center-block" id="eimg" src="'+ currentEnemy.ekilledImg + '" width="150" height="150">');
-					$("#killed").show();
-					$("#killed").html("You've killed " + currentEnemy.name + "!");
-					setTimeout(waitk, 1800);
-					function waitk(){
-						$("#killed").html("You gained " + currentEnemy.xp + " XP!");
+				$("#combatBtnDiv").hide();
+				$("#playerAttack").hide();
+				$("#playerDamage").hide();
+				$("#enemyName").hide();
+				$("#enemyHpH3").replaceWith('<h3 id="enemyHpH3">' + "0 HP</h3>");
+				$("#eimg").replaceWith('<img class="center-block" id="eimg" src="'+ currentEnemy.ekilledImg + '" width="150" height="150">');
+				$("#killed").show();
+				$("#killed").html("You've killed " + currentEnemy.name + "!");
+				setTimeout(waitk, 1800);
+				function waitk(){
+					$("#killed").html("You gained " + currentEnemy.xp + " XP!");
+				}
+				enemiesKilled += 1;
+				playerCombat.xp += currentEnemy.xp;
+				console.log("Player XP: " + playerCombat.xp);
+				console.log("Enemies Killed: " + enemiesKilled);
+				$("#xph3").html("XP: " + playerCombat.xp);
+				exp += currentEnemy.xp;
+				console.log("EXP POOL: " + exp);
+				$("#enemiesKilledh3").html("Killed: " + enemiesKilled);
+				console.log("You've killed " + currentEnemy.name + "!");
+					
+					if(exp >= 25){
+						setTimeout(waitlv, 10);
+						function waitlv(){
+							alert("You can level up!")
+						}
+						regen(currentEnemy);
+						$("#lvlUpBtn").show();
+						$("#mainGameBox").hide();
+						setTimeout(waity, 3000);
+						function waity(){
+							$("#killed").hide(400);
+							$("#eimg").hide();
+							
+						}
 					}
-					enemiesKilled += 1;
-					playerCombat.xp += currentEnemy.xp;
-					console.log("Player XP: " + playerCombat.xp);
-					console.log("Enemies Killed: " + enemiesKilled);
-					$("#xph3").html("XP: " + playerCombat.xp);
-					exp += playerCombat.xp;
-					$("#enemiesKilledh3").html("Killed: " + enemiesKilled);
-					console.log("You've killed " + currentEnemy.name + "!");
-					
-					
-					regen(currentEnemy);
-					setTimeout(waity, 2800);
-					function waity(){
-						$("#killed").hide(400);
-						$("#eimg").hide();
-						mainGame();
+					else{
+						regen(currentEnemy);
+						setTimeout(waity, 2800);
+						function waity(){
+							$("#killed").hide(400);
+							$("#eimg").hide();
+							mainGame();
+						}
 					}
 			}
 			
@@ -519,9 +541,12 @@ $(document).ready(function($) {
 
 	//Main game loop
 	function mainGame(){
+		$("#mainGameBox").show();
+		$("#lvlUpBtn").hide();
 		$("#foundEnemy").hide();
 		console.log(enemiesArray);
 		$("#playerHP").html(player.php + " HP");
+		$("#playerLevel").html("Player Level: " + player.lvl);
 		$("#goldh3").html("Gold: " + gold);
 		$("#hpPotionsh3").html("Potions: " + potion);
 		$("#xph3").html("XP: " + player.xp);
