@@ -64,31 +64,61 @@ $(document).ready(function($) {
 
 
 	function dropLoot(){
-		var itemsLoot = ["null","HP Potion", "10 Gold"];
-		var droppedItem = itemsLoot[Math.floor(Math.random() * 2) + 1];
-			if(droppedItem === "10 Gold"){
-				gold += 10;
-			}
-			if(droppedItem === "HP Potion" && potion < 6){
-				potion += 1;
-			}
-			else{
-				dropLoot();
-			}
-		$(".room-button").hide();
-		console.log("dropped " + droppedItem);
-		console.log("Gold: " + gold);
-		console.log("Potions: " + potion);
-		// $("#itemPopup").show();
 		$("#goldh3").html("Gold: " + gold);
 		$("#hpPotionsh3").html("Potions: " + potion);
-		$("#whichWay").append('<h2 id="itemPopup">You found ' + droppedItem + '!</h2>');
-			setTimeout(waitl, 1500);
-				function waitl(){
-					$("#itemPopup").replaceWith('<h2 id="itemPopup"> </h2>');
-					$(".room-button").show();
-				}
-		}
+		var itemsLoot = ["null","HP Potion", "10 Gold"];
+		var droppedItem = itemsLoot[Math.floor(Math.random() * 4) + 1];
+			if(droppedItem === "10 Gold"){
+				gold += 10;
+				$("#goldh3").html("Gold: " + gold);
+
+				console.log("dropped " + droppedItem);
+				console.log("Gold: " + gold);
+				console.log("Potions: " + potion);
+				$(".room-button").hide();
+
+				$("#whichWay").append('<h2 id="itemPopup">You found ' + droppedItem + '!</h2>');
+					setTimeout(waitl, 1500);
+						function waitl(){
+							$("#itemPopup").replaceWith('<h2 id="itemPopup"> </h2>');
+							$(".room-button").show();
+						}
+			}
+			
+			if(droppedItem === "HP Potion" && potion < 8){
+				potion += 1;
+				console.log("dropped " + droppedItem);
+				console.log("Gold: " + gold);
+				console.log("Potions: " + potion);
+				$("#hpPotionsh3").html("Potions: " + potion);
+				$(".room-button").hide();
+				$("#whichWay").append('<h2 id="itemPopup">You found ' + droppedItem + '!</h2>');
+					setTimeout(waitl, 1500);
+						function waitl(){
+							$("#itemPopup").replaceWith('<h2 id="itemPopup"> </h2>');
+							$(".room-button").show();
+							
+						}
+			}
+	
+			else{
+				$(".room-button").hide();
+				console.log("dropped " + droppedItem);
+				console.log("Gold: " + gold);
+				console.log("Potions: " + potion);
+				// $("#itemPopup").show();
+				$("#goldh3").html("Gold: " + gold);
+				$("#hpPotionsh3").html("Potions: " + potion);
+				$(".room-button").hide(400);
+				setTimeout(waitl, 1500);
+						function waitl(){
+							
+							$(".room-button").show();
+							
+						}
+			}
+	}
+		
 
 
 	// function edropLoot(){
@@ -323,7 +353,7 @@ $(document).ready(function($) {
 	
 	$("#lvlUpBtn").on("click", function(){
 		console.log("playerxp " + player.xp);
-		if(player.xp < 50){
+		if(player.xp <= 75){
 			if(exp >= 25){
 					player.lvl += 1;
 					player.tphp += 5;
@@ -332,7 +362,13 @@ $(document).ready(function($) {
 
 					exp = 0;
 					console.log("exp " + exp);
-					mainGame();
+					$("#eimg").show();
+					setTimeout(waitm, 600);
+					function waitm(){
+						mainGame();
+					}
+
+					
 			}	
 			else{
 				alert("You can only level up every 25xp!");
@@ -347,7 +383,13 @@ $(document).ready(function($) {
 
 					exp = 0;
 					console.log("exp " + exp);
-					mainGame();
+					$("#eimg").show();
+					setTimeout(waitn, 600);
+					function waitn(){
+						mainGame();
+					}
+
+					
 			}	
 			else{
 				alert("You can only level up every 75xp!");
@@ -362,7 +404,7 @@ $(document).ready(function($) {
 		
 	//combat functions
 	function combat(currentEnemy, playerCombat){
-		
+			$("#eimg").show();
 		
 			$("#attackBtn").hide();
 			$("#waitAttackBtn").show();
@@ -485,29 +527,59 @@ $(document).ready(function($) {
 				$("#enemiesKilledh3").html("Killed: " + enemiesKilled);
 				console.log("You've killed " + currentEnemy.name + "!");
 					
-					if(exp >= 25){
-						setTimeout(waitlv, 10);
-						function waitlv(){
-							alert("You can level up!")
+					if(player.xp <= 75){
+						if(exp >= 25){
+							setTimeout(waitlv, 10);
+							function waitlv(){
+								alert("You can level up!")
+							}
+							regen(currentEnemy);
+							$("#lvlUpBtn").show();
+							$("#mainGameBox").hide();
+							setTimeout(waity, 3000);
+							function waity(){
+								$("#killed").hide(400);
+								$("#eimg").hide();
+								
+							}
 						}
-						regen(currentEnemy);
-						$("#lvlUpBtn").show();
-						$("#mainGameBox").hide();
-						setTimeout(waity, 3000);
-						function waity(){
-							$("#killed").hide(400);
-							$("#eimg").hide();
-							
+						else{
+							regen(currentEnemy);
+							setTimeout(waity, 2800);
+							function waity(){
+								$("#killed").hide(400);
+								$("#eimg").hide();
+								mainGame();
+							}
 						}
 					}
 					else{
-						regen(currentEnemy);
-						setTimeout(waity, 2800);
-						function waity(){
-							$("#killed").hide(400);
-							$("#eimg").hide();
-							mainGame();
+
+						if(exp >= 75){
+							setTimeout(waitlv, 10);
+							function waitlv(){
+								alert("You can level up!")
+							}
+							regen(currentEnemy);
+							$("#lvlUpBtn").show();
+							$("#mainGameBox").hide();
+							setTimeout(waity, 3000);
+							function waity(){
+								$("#killed").hide(400);
+								$("#eimg").hide();
+								
+							}
 						}
+						else{
+							regen(currentEnemy);
+							setTimeout(waity, 2800);
+							function waity(){
+								$("#killed").hide(400);
+								$("#eimg").hide();
+								mainGame();
+							}
+						}
+
 					}
 			}
 			
@@ -534,11 +606,8 @@ $(document).ready(function($) {
 		}
 		console.log("how many rooms " + howMany);
 		console.log("rooms " + rooms);
-		setTimeout(waitl, 20);
-				function waitl(){
-					$("#newRoomText").html("You see " + rooms.length+ " cooridors on your path. Choose one.");
-				}
-		
+		$("#newRoomText").html("You see " + rooms.length+ " cooridors on your path. Choose one.");
+				
 		for(var i = 0; i < rooms.length; i++){
 			var roomBtn = $("<button>");
 			roomBtn.addClass("btn btn-default btn-lg room-button room room-button-color");
