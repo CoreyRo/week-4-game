@@ -2,11 +2,16 @@
 //****************Dungeon Survival RPG****************
 //******************By Corey Rodems*******************
 
-//figure out why the enemyAppear.X stuff throwing back undefined.
-//create the combat loop.
-//create the use potion function.
-//create the xp += for score
-//create the lose condition HP <=0 then end game and show total score.
+// WIP 7/10/17
+// Extra To Do
+
+//Shop mechanic 
+//More enemies
+//Remove all alert()s
+//XP lvl up (more health)
+//Attack damage image
+//Attack sounds
+
 
 //****************************************************************
 	//vars
@@ -109,7 +114,6 @@ $(document).ready(function($) {
 
 	//***********************************************************************
 	//player
-	//I don't know if I set this up right.
 	var player = {
 		php:25,
 		pitems:[""],
@@ -123,8 +127,6 @@ $(document).ready(function($) {
 	
 	//***********************************************************************
 	//enemies
-	//need to figure out how to make them show up using the enemyArray.name
-	//I don't know if I set this up right.
 	var creature = {
 		id:0,
 		name:"creature",
@@ -139,9 +141,6 @@ $(document).ready(function($) {
 		xp:+3,
 	}
 
-	// function regen({
-
-	// });
 
 	var skeleton = {
 		id:1,
@@ -217,10 +216,6 @@ $(document).ready(function($) {
 	}
 
 	//what type of enemy is in the room?
-	//enemyAppear is throwing back [object object]?
-	//Not reseting Object properties when finished?
-
-	//supposed to reset enemy ehp and stats, but it's not
 	function regen(current){
 		for(var i = 0; i < enemiesArray.length; i++){
 			if(current.id === enemiesArray[i].id){
@@ -237,13 +232,13 @@ $(document).ready(function($) {
 	}
 	//***************************Difficulty Scale***************************
 	function whatEnemy(){
-		if(player.xp <= 25){
+		if(player.xp < 25){
 			var enemyAppear = enemiesArray[Math.floor(Math.random() * 2) + 1];
 		}
-		else if(player.xp >= 50){
+		else if(player.xp < 50){
 			var enemyAppear = enemiesArray[Math.floor(Math.random() * 3) + 1];
 		}
-		else{
+		else if(player.xp >= 50){
 			var enemyAppear = enemiesArray[Math.floor(Math.random() * 4) + 1];
 		}
 		
@@ -254,7 +249,6 @@ $(document).ready(function($) {
 		console.log(enemyAppear.name);
 		console.log(enemyAppear.ehp);
 
-		//I need to make this less of a mess. I'm having trouble doing this.
 		var enemyAppearText = ('<div class="row"> <div id="playerInfo" class="col-md-4"><h2 id="playerAttack"></h2><h2 id="playerDamage"></h2></div> <div id="appearEnemy" class="col-md-4"></div> <div id="enemyInfo" class="col-md-4"><h2 id="enemyAttack"></h2><h2 id="enemyDamage"></h2></div></div>');
 		$("#mainGameBox").append(enemyAppearText);
 		$("#appearEnemy").append('<h3 id="killed"></h3>');
@@ -307,8 +301,6 @@ $(document).ready(function($) {
 	//combat
 		
 	//combat functions
-	//Why doesn't it stop when reaching 0? It gets to 0 or <0 then you must click once more in order to clear.
-	//I am trying to get it to end combat as soon as ehp <= 0.
 	function combat(currentEnemy, playerCombat){
 
 		$("#attackBtn").hide();
@@ -439,7 +431,7 @@ $(document).ready(function($) {
 
 	//***********************************************************************
 	//new room loop
-	function newRooms(){
+	function newRoomsFunc(){
 		var newRooms = $(
 			'<div class="row"> <div class="col-md-4"></div> <div id="whichWay" class="col-md-4"></div> <div class="col-md-4"></div></div>');
 		$("#mainGameBox").append(newRooms);
@@ -506,7 +498,7 @@ $(document).ready(function($) {
 			
 		}
 		if(!isEnemyCheck){
-			newRooms();
+			newRoomsFunc();
 			$("#whichWay").show();
 			dropLoot();
 			$(".room").on("click", function(){
