@@ -69,8 +69,11 @@ $(document).ready(function($) {
 			if(droppedItem === "10 Gold"){
 				gold += 10;
 			}
-			if(droppedItem === "HP Potion"){
+			if(droppedItem === "HP Potion" && potion < 6){
 				potion += 1;
+			}
+			else{
+				dropLoot();
 			}
 		$(".room-button").hide();
 		console.log("dropped " + droppedItem);
@@ -171,7 +174,7 @@ $(document).ready(function($) {
 		ehp:14,
 		eitems:[""],
 		eattack:0,
-		edamage:1,
+		edamage:2,
 		edefense:3,
 		xp:+10,
 	}
@@ -185,7 +188,7 @@ $(document).ready(function($) {
 		ehp:16,
 		eitems:[""],
 		eattack:0,
-		edamage:3,
+		edamage:6,
 		edefense:5,
 		xp:+25,
 	}
@@ -199,7 +202,7 @@ $(document).ready(function($) {
 		ehp:20,
 		eitems:[""],
 		eattack:0,
-		edamage:6,
+		edamage:10,
 		edefense:8,
 		xp:+50,
 	}
@@ -259,7 +262,7 @@ $(document).ready(function($) {
 		$("#mainGameBox").append(enemyAppearText);
 		$("#appearEnemy").append('<h3 id="killed"></h3>');
 		$("#killed").hide();
-
+		$("#mainGameBox").show();
 
 		$("#appearEnemy").append("<h2 id=enemyName>" + enemyAppear.name + "</h2>");
 		$("#appearEnemy").append('<img class="center-block" id="eimg" src="'+ enemyAppear.eimg + '" width="150" height="150">');
@@ -320,18 +323,35 @@ $(document).ready(function($) {
 	
 	$("#lvlUpBtn").on("click", function(){
 		console.log("playerxp " + player.xp);
-		if(exp >= 25){
-				player.lvl += 1;
-				player.tphp += 15;
-				player.php = player.tphp;
-				alert("You've leveled up");
+		if(player.xp < 50){
+			if(exp >= 25){
+					player.lvl += 1;
+					player.tphp += 5;
+					player.php = player.tphp;
+					alert("You've leveled up");
 
-				exp = 0;
-				console.log("exp " + exp);
-				mainGame();
-		}	
+					exp = 0;
+					console.log("exp " + exp);
+					mainGame();
+			}	
+			else{
+				alert("You can only level up every 25xp!");
+			}
+		}
 		else{
-			alert("You can only level up every 25xp!");
+			if(exp >= 75){
+					player.lvl += 1;
+					player.tphp += 10;
+					player.php = player.tphp;
+					alert("You've leveled up");
+
+					exp = 0;
+					console.log("exp " + exp);
+					mainGame();
+			}	
+			else{
+				alert("You can only level up every 75xp!");
+			}
 		}			
 	});
 
