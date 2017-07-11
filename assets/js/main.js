@@ -17,6 +17,7 @@
 	//vars
 $(document).ready(function($) {
 	$("#hudRow").hide();
+	$("#foundEnemy").hide();
 	var rooms = [""];
 	var newRooms;
 	var whichWay;
@@ -25,6 +26,7 @@ $(document).ready(function($) {
 	var itemsLoot = [""];
 	var droppedItem;
 	var edroppedItem;
+	var currentXPArray = [];
 	//player vars
 	// var php;
 	var name;
@@ -34,7 +36,7 @@ $(document).ready(function($) {
 	var pdamager;
 	var pcritDamage;
 	var pdefense;
-	var xp = 0;
+	var xp;
 	var gold = 0;
 	var potion = 2;
 	//enemy vars
@@ -116,6 +118,7 @@ $(document).ready(function($) {
 	//player
 	var player = {
 		php:25,
+		tphp:25,
 		pitems:[""],
 		pattack:pattackr,
 		pdamage:pdamager,
@@ -229,6 +232,7 @@ $(document).ready(function($) {
 		}
 
 	}
+
 	//***************************Difficulty Scale***************************
 	function whatEnemy(){
 		if(player.xp < 25){
@@ -268,21 +272,38 @@ $(document).ready(function($) {
 		$("#enemyDamage").show();
 		$("#enemyAttack").show();
 		
+
+		
 		$("#attackBtn").on("click", function(){
 				combat(enemyAppear, player);
 			});
+		
 			
 		
 	}
+
+	$("#shopButton").on("click", function(){
+		alert("Sorry, shop's closed until coded. Try again after the next update!")
+	});
+
 	$("#potionButton").on("click", function(){
-		var currentHP = 25 - player.php;
+		var healthMax = player.tphp - 15;
 		if(potion >= 1){
-			player.php += currentHP;
+			if(player.php <= healthMax){
+				player.php += 15;
+			}
+			else{
+				player.php = player.tphp;
+			}
+			
 			potion = potion - 1;
-			$("#hpPotionsh3").replaceWith('<h3 id="hpPotionsh3">Potions: ' + potion + '</h3>');
+			$("#hpPotionsh3").replaceWith('<span id="hpPotionsh3">Potions: ' + potion + '</span>');
 			$("#playerHP").replaceWith('<h2 id="playerHP">' + player.php + " HP</h3>");
-			console.log("heal " + currentHP);
+			
 			console.log("potions " + potion);
+			console.log("healthMax " + healthMax);
+			console.log("player.tphp " + player.tphp);
+			console.log("player.php " + player.php);
 		}
 		else{
 			setTimeout(waitl, 20);
@@ -290,8 +311,23 @@ $(document).ready(function($) {
 					alert("Out of Health Potions!");
 				}
 			
-		};
+		}
 			
+	});
+	if(exp >= 25){
+		alert("You can level up!")
+	}
+	$("#lvlUpBtn").on("click", function(){
+		console.log("playerxp " + player.xp);
+		if(exp >= 25){
+				player.lvl += 1;
+				player.tphp += 15;
+				player.php = player.tphp;
+				alert("You've leveled up");
+		}	
+		else{
+			alert("You can only level up every 25xp!");
+		}			
 	});
 
 
@@ -301,131 +337,138 @@ $(document).ready(function($) {
 		
 	//combat functions
 	function combat(currentEnemy, playerCombat){
-
-		$("#attackBtn").hide();
-		$("#waitAttackBtn").show();
-		setTimeout(waitx, 2500);
-			function waitx(){
-				$("#waitAttackBtn").hide();
-				$("#attackBtn").show();
-			}
-
 		
-
-		pattackRoll();
-		console.log("attack roll " + pattackr);
-		console.log("Enemy Defense: " + currentEnemy.edefense);
-		console.log("Enemy HP: " + currentEnemy.ehp);
-		if(pattackr > currentEnemy.edefense){
-
-			pdamageRoll();
-			console.log("attack damage: " + pdamager);
-			$("#playerDamage").show();
-			$("#playerDamage").replaceWith('<h4 id="playerDamage">You did ' + pdamager +' damage to ' + currentEnemy.name + '!</h4>');
-			setTimeout(waitv, 1600);
-				function waitv(){
-					$("#playerDamage").hide();
-				}
-			currentEnemy.ehp -= pdamager;
-			console.log("enemyhp: " + currentEnemy.ehp);
-			$("#enemyHpH3").replaceWith('<h4 id="enemyHpH3">' + currentEnemy.ehp + " HP</h4>");
 		
-
-		//enemy
-		if(currentEnemy.ehp > 1){
-			setTimeout(waitz, 1200);
-				function waitz(){
-								
-				eattackRoll();
-				console.log("attack roll " + eattackr);
-				console.log("Player Defense: " + playerCombat.defense);
-				console.log("Enemy HP: " + playerCombat.php);
-				if(eattackr > playerCombat.pdefense){
-
-					edamageRoll();
-					var enemyDamages = edamager + currentEnemy.edamage;
-					console.log("edamager " + edamager);
-					console.log("currentEnemy.edamage " + currentEnemy.edamage);
-					console.log(enemyDamages + " enemy damage");
-
-					console.log("attack damage: " + enemyDamages);
-					$("#enemyDamage").show();
-					$("#enemyDamage").replaceWith('<h4 id="enemyDamage">' + currentEnemy.name + ' did ' + enemyDamages +' damage to you!</h4>');
-					setTimeout(waitb, 1300);
-						function waitb(){
-							$("#enemyDamage").hide();
-						}
-					playerCombat.php -= enemyDamages;
-					console.log("player hp: " + playerCombat.php);
-					$("#playerHP").replaceWith('<h2 id="playerHP">' + playerCombat.php + " HP</h3>");
-				}
-				else{
-					$("#enemyAttack").show();
-					$("#enemyAttack").replaceWith('<h4 id="enemyAttack">' + currentEnemy.name + ' Missed their attack!</h4>');
-					console.log("Missed attack. Attack roll " + eattackr + " < " + playerCombat.pdefense);
-					setTimeout(waitg, 1200);
-						function waitg(){
-							$("#enemyAttack").hide();
-						}
-				}
-			}
-		}
-		if(currentEnemy.ehp <= 0){
-			$("#combatBtnDiv").hide();
-			$("#playerAttack").hide();
-			$("#playerDamage").hide();
-			$("#enemyName").hide();
-			$("#enemyHpH3").replaceWith('<h3 id="enemyHpH3">' + "0 HP</h3>");
-			$("#eimg").replaceWith('<img class="center-block" id="eimg" src="'+ currentEnemy.ekilledImg + '" width="150" height="150">');
-			$("#killed").show();
-			$("#killed").text("You've killed " + currentEnemy.name + "!")
-			enemiesKilled += 1;
-			playerCombat.xp += currentEnemy.xp;
-			console.log("Player XP: " + playerCombat.xp);
-			console.log("Enemies Killed: " + enemiesKilled);
-			$("#xph3").html("XP: " + playerCombat.xp);
-			$("#enemiesKilledh3").html("Killed: " + enemiesKilled);
-			console.log("You've killed " + currentEnemy.name + "!");
-			
-			
-			regen(currentEnemy);
-			setTimeout(waity, 2500);
-			function waity(){
-				$("#eimg").hide();
-				mainGame();
-			}
-		}
-		else if(playerCombat.php <= 0){
 			$("#attackBtn").hide();
-			$("#waitAttackBtn").hide();
-			$("#playerAttack").hide();
-			$("#playerDamage").hide();
-			$("#enemyName").hide();
-			$("#playerHP").replaceWith('<h3 id="playerHP">YOU ARE DEAD</h3>');
-				
-			setTimeout(waity, 2500);
-			function waity(){
-				var death = confirm("You have been killed. Play again?");
-				if (death){
-					window.location.replace("game.html")
+			$("#waitAttackBtn").show();
+			setTimeout(waitx, 3000);
+				function waitx(){
+					$("#waitAttackBtn").hide();
+					$("#attackBtn").show();
 				}
-				else{
-					window.location.replace("index.html")
-				}
-			}
-		}
 
-	}
-		
-		else{
-			$("#playerAttack").show();
-			$("#playerAttack").replaceWith('<h3 id="playerAttack">' + currentEnemy.name + ' dodged your attack!</h3>');
-			console.log("Missed attack. Attack roll " + pattackr + " < " + currentEnemy.edefense);
-			setTimeout(waitm, 1500);
-				function waitm(){
+			
+
+			pattackRoll();
+			console.log("attack roll " + pattackr);
+			console.log("Enemy Defense: " + currentEnemy.edefense);
+			console.log("Enemy HP: " + currentEnemy.ehp);
+			if(pattackr > currentEnemy.edefense){
+
+				pdamageRoll();
+				console.log("attack damage: " + pdamager);
+				$("#playerDamage").show();
+				$("#playerDamage").replaceWith('<h4 id="playerDamage">You did ' + pdamager +' damage to ' + currentEnemy.name + '!</h4>');
+				setTimeout(waitv, 1600);
+					function waitv(){
+						$("#playerDamage").hide();
+					}
+				currentEnemy.ehp -= pdamager;
+				console.log("enemyhp: " + currentEnemy.ehp);
+				$("#enemyHpH3").replaceWith('<h4 id="enemyHpH3">' + currentEnemy.ehp + " HP</h4>");
+
+			}
+			
+			else{
+				$("#playerAttack").show();
+				$("#playerAttack").replaceWith('<h3 id="playerAttack">' + currentEnemy.name + ' dodged your attack!</h3>');
+				console.log("Missed attack. Attack roll " + pattackr + " < " + currentEnemy.edefense);
+				setTimeout(waitm, 1500);
+					function waitm(){
+						$("#playerAttack").hide();
+					}
+			}	
+			if(currentEnemy.ehp >= 1){
+					setTimeout(waitz, 1200);
+						function waitz(){
+										
+						eattackRoll();
+						console.log("attack roll " + eattackr);
+						console.log("Player Defense: " + playerCombat.pdefense);
+						console.log("Enemy HP: " + playerCombat.php);
+						if(eattackr > playerCombat.pdefense){
+
+							edamageRoll();
+							var enemyDamages = edamager + currentEnemy.edamage;
+							console.log("edamager " + edamager);
+							console.log("currentEnemy.edamage " + currentEnemy.edamage);
+							console.log(enemyDamages + " enemy damage");
+
+							console.log("attack damage: " + enemyDamages);
+							$("#enemyDamage").show();
+							$("#enemyDamage").replaceWith('<h4 id="enemyDamage">' + currentEnemy.name + ' did ' + enemyDamages +' damage to you!</h4>');
+							setTimeout(waitb, 1300);
+								function waitb(){
+									$("#enemyDamage").hide();
+								}
+							playerCombat.php -= enemyDamages;
+							console.log("player hp: " + playerCombat.php);
+							$("#playerHP").replaceWith('<h2 id="playerHP">' + playerCombat.php + " HP</h3>");
+							if(playerCombat.php < 1){
+								$("#mainGameBox").hide();
+								$("#attackBtn").hide();
+								$("#waitAttackBtn").hide();
+								$("#playerAttack").hide();
+								$("#playerDamage").hide();
+								$("#enemyName").hide();
+								$("#playerHP").replaceWith('<h2 id="playerHP">YOU ARE DEAD</h2>');
+									
+								setTimeout(waity, 2800);
+								function waity(){
+									var death = confirm("You have been killed. Play again?");
+									if (death){
+										window.location.replace("game.html")
+									}
+									else{
+										window.location.replace("index.html")
+									}
+								}
+							}
+
+						}
+						else{
+							$("#enemyAttack").show();
+							$("#enemyAttack").replaceWith('<h4 id="enemyAttack">' + currentEnemy.name + ' Missed their attack!</h4>');
+							console.log("Missed attack. Attack roll " + eattackr + " < " + playerCombat.pdefense);
+							setTimeout(waitg, 1200);
+								function waitg(){
+									$("#enemyAttack").hide();
+								}
+						}
+					}
+			}
+			else if(currentEnemy.ehp <= 0){
+					$("#combatBtnDiv").hide();
 					$("#playerAttack").hide();
-				}
-		}	
+					$("#playerDamage").hide();
+					$("#enemyName").hide();
+					$("#enemyHpH3").replaceWith('<h3 id="enemyHpH3">' + "0 HP</h3>");
+					$("#eimg").replaceWith('<img class="center-block" id="eimg" src="'+ currentEnemy.ekilledImg + '" width="150" height="150">');
+					$("#killed").show();
+					$("#killed").html("You've killed " + currentEnemy.name + "!");
+					setTimeout(waitk, 1800);
+					function waitk(){
+						$("#killed").html("You gained " + currentEnemy.xp + " XP!");
+					}
+					enemiesKilled += 1;
+					playerCombat.xp += currentEnemy.xp;
+					console.log("Player XP: " + playerCombat.xp);
+					console.log("Enemies Killed: " + enemiesKilled);
+					$("#xph3").html("XP: " + playerCombat.xp);
+					exp += playerCombat.xp;
+					$("#enemiesKilledh3").html("Killed: " + enemiesKilled);
+					console.log("You've killed " + currentEnemy.name + "!");
+					
+					
+					regen(currentEnemy);
+					setTimeout(waity, 2800);
+					function waity(){
+						$("#killed").hide(400);
+						$("#eimg").hide();
+						mainGame();
+					}
+			}
+			
 	}
 
 	//***********************************************************************
