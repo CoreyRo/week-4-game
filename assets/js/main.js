@@ -79,7 +79,7 @@ $(document).ready(function($) {
 		$("#whichWay").append('<h2 id="itemPopup">You found ' + droppedItem + '!</h2>');
 			setTimeout(waitl, 1500);
 				function waitl(){
-					$("#itemPopup").remove();
+					$("#itemPopup").replaceWith('<h2 id="itemPopup"> </h2>');
 				}
 		}
 
@@ -210,7 +210,6 @@ $(document).ready(function($) {
 		}
 		if(isEnemyHere === 2){
 			console.log("theres something in here")
-			alert("Something is stirring in the darkness");
 			isEnemyCheck = true;
 		}
 	}
@@ -433,7 +432,7 @@ $(document).ready(function($) {
 	//new room loop
 	function newRoomsFunc(){
 		var newRooms = $(
-			'<div class="row"> <div class="col-md-4"></div> <div id="whichWay" class="col-md-4"></div> <div class="col-md-4"></div></div>');
+			'<div class="row"><div class="col-md-12"><span id="newRoomText"></span></div></div><div class="row"> <div class="col-md-4"></div> <div id="whichWay" class="col-md-4"></div> <div class="col-md-4"></div></div>');
 		$("#mainGameBox").append(newRooms);
 		var howMany = Math.floor(Math.random() * 4) + 1;
 		if(howMany === 1){
@@ -452,7 +451,7 @@ $(document).ready(function($) {
 		console.log("rooms " + rooms);
 		setTimeout(waitl, 20);
 				function waitl(){
-					alert("You see " + rooms.length+ " cooridors on your path. Choose one.");
+					$("#newRoomText").html("You see " + rooms.length+ " cooridors on your path. Choose one.");
 				}
 		
 		for(var i = 0; i < rooms.length; i++){
@@ -477,6 +476,7 @@ $(document).ready(function($) {
 
 	//Main game loop
 	function mainGame(){
+		$("#foundEnemy").hide();
 		console.log(enemiesArray);
 		$("#playerHP").html(player.php + " HP");
 		$("#goldh3").html("Gold: " + gold);
@@ -492,6 +492,19 @@ $(document).ready(function($) {
 		isEnemy();
 		if(isEnemyCheck){
 			$("#whichWay").hide();
+			$("#headRow").hide();
+			$("#foundEnemy").show();
+			$("#newEnemy").html("Something is stirring in the darkness...");
+			setTimeout(waith, 2000)
+				function waith(){
+					$("#foundEnemy").hide(600);
+
+				}
+			setTimeout(waite, 2600);
+				function waite(){
+					
+					$("#headRow").show();
+				}
 
 			whatEnemy();
 			

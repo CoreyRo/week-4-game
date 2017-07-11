@@ -46,6 +46,18 @@ h2{
 
 }
 
+#whichWay{
+	padding: 30px 0 30px 30px;
+}
+
+#newRoomText, #newEnemy{
+	text-align: center;
+	font-family: 'Press Start 2P', cursive !important;
+	color: #fff !important;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;
+	font-size: 14pt;
+	margin-left: 30px;
+}
 
 #storeDiv, #playerWeap{
 	margin-top:-25px; 
