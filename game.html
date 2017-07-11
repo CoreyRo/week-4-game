@@ -107,26 +107,53 @@
 			<div class="jumbotron">
 				<div class="container">
 					<div class="row">
-						<div class="col-md-4"></div>
-						<div class="col-md-4">
-							<h2 id="playerHP"></h2>
-							<button type="button" id="potionButton" class="center-block btn btn-primary">Heal</button>
-
-						</div>
-						<div class="col-md-4"></div>
-						</div>
-						<div class="row">
-							<div class="col-md-3"></div>
-							<div class="col-md-3">
-								<h3 id="hpPotionsh3"></h3>
-								<h3 id="goldh3"></h3>
 						
+						<div class="col-md-12">
+							<h2 class="HP" id="playerHP"></h2>
+							
+							<br>
+						</div>
+						
+						</div>
+						<div id="bottonHud" class="row">
+							<div id="playerWeap" class="col-md-4">
+								<h2>Equipment</h2>
+								<img id="equip">
+								
+
 							</div>
-							<div class="col-md-3">
-								<h3 id="xph3"></h3>
+
+
+							<div class="col-md-4">
+								<span id="hpPotionsh3"></span>	
+								<button type="button" id="potionButton" class="inline-block btn btn-success pull-right">Heal</button>					
+								<br>
+								<br>
+								<span id="goldh3"></span>
+								<button class="btn btn-warning btn inline-block pull-right" id="shopButton">Shop</button>
+								<br>
+								<br>
+								
+								<span id="xph3"></span>
+								<button class="btn btn-default btn inline-block pull-right" id="lvlUpBtn">Lvl Up</button>
+
 								<h3 id="enemiesKilledh3"></h3>
+							
+							
+								
 							</div>
-							<div class="col-md-3"></div>
+								
+							
+							<div class="col-md-4">
+									<div id="storeDiv" class="col-md-12">
+										<h2>Store</h2>
+
+										<div class="col-md-4"></div>
+										<div class="col-md-4"></div>
+										<div class="col-md-4"></div>
+									
+									</div>
+							</div>
 							<div class="row">
 								<div class="col-md-12">
 									<audio autoplay volume="0.1" id="gameMusic" class="center-block" src="assets/music.mp3"></audio>

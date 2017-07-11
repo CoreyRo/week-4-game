@@ -30,17 +30,70 @@ h2{
 	font-size: 16pt !important;
 }
 
+#potionButton, #shopButton, #lvlUpBtn{
+	margin:-8px 0 0 0;
+
+}
+
 #goldh3, #hpPotionsh3, #xph3, #enemiesKilledh3{
 	text-align: left;
+	font-family: 'Press Start 2P', cursive !important;
+	color: #ffb800 !important;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;
+	font-size: 12pt;
 }
 #hpPotionsh3{
 
 }
+
+
+#storeDiv, #playerWeap{
+	margin-top:-25px; 
+}
 .border-radius{
 	border-radius:10px;
 }
+{
+	margin:-8px 0 0 0;
+}
 
+#bottonHud{
+	border: #ffb800 solid 3px;
+    margin-top: 50px;
+    padding: 25px 0 10px 0;
+}
 
+#playerHP{
+	color: #3d0 !important;
+    border: 2px #2b0 solid;
+    padding: 8px;
+    margin: 0 200px 10px 200px;
+    font-size: 18pt;
+    text-align: center;
+}
+
+ #enemyHpH3{
+ 	color:#f00 !important;
+	border: 2px #f00 solid ;
+	padding: 8px;
+	margin: 20px 0 20px 0;
+}
+
+#playerHPdamaged{
+	color:#f00 !important;
+	border: 2px #f00 solid ;
+	padding: 8px;
+	margin:5px 100px 5px 100px;
+	font-size: 18pt;
+
+}
+
+ #enemyHpH3damaged{
+ 	color:#fff !important;
+	border: 2px #fff solid ;
+	padding: 8px;
+	margin: 20px 0 20px 0;
+}
 
 #mainhead{
 	
