@@ -346,10 +346,11 @@ $(document).ready(function($) {
 			
 	});
 	function hideShop(){
-		setTimeout(closeShop, 1000)
+		setTimeout(closeShop, 1)
 		function closeShop(){
 			$("#storeDiv").hide();
-			$("#shopButton").hide();
+			$("#shopButton").show();
+			$("")
 		}
 	}
 	$("#shopButton").on("click", function(){
@@ -358,6 +359,14 @@ $(document).ready(function($) {
 		$("#sharpen").show();
 		$("#shield").show();
 		$("#accu").show();
+		$("#shopButton").hide();
+		$("#done").show();
+		dmgGoldNeed = 25;
+		defGoldNeed = 25;
+		accuGoldNeed = 25;
+		$("#defBtnTxt").text(defGoldNeed + " gold");
+		$("#dmgBtnTxt").text(dmgGoldNeed + " gold");
+		$("#accBtnTxt").text(accuGoldNeed + " gold");
 		// var sharpenClick = false;
 		// var shieldClick = false;
 		// var accuClick = false;
@@ -366,16 +375,20 @@ $(document).ready(function($) {
 	$("#dmgBtn").on("click", function(){
 		console.log("clicked sharpen");
 		
-		dmgGoldNeed = 25;
+		
 		if(gold >= dmgGoldNeed){
 			console.log("sharpen");
 			player.pdamage += 2;
 			
 			gold -= dmgGoldNeed;
+			$("#goldh3").html("Gold: " + gold);
 			dmgGoldNeed += 25;
 			$("#dmgStat").text(player.pdamage);
 			console.log(player.pdamge);
-			hideShop();
+			$("#defBtnTxt").text(defGoldNeed + " gold");
+		$("#dmgBtnTxt").text(dmgGoldNeed + " gold");
+		$("#accBtnTxt").text(accuGoldNeed + " gold");
+			
 		}
 		else{
 			alert("not enough gold!");
@@ -386,16 +399,20 @@ $(document).ready(function($) {
 	//button not working
 	$("#defBtn").on("click", function(){
 		console.log("clicked");
-		defGoldNeed = 25;
+		
 		if(gold >= defGoldNeed){
 			console.log("harden");
 			player.pdefense += 1;
-			$("#goldh3").html("Gold: " + gold);
+			
 			gold -= defGoldNeed;
+			$("#goldh3").html("Gold: " + gold);
 			defGoldNeed += 25;
 			$("#defStat").text(player.pdefense);
 			console.log(player.pdefense);
-			hideShop();
+			$("#defBtnTxt").text(defGoldNeed + " gold");
+		$("#dmgBtnTxt").text(dmgGoldNeed + " gold");
+		$("#accBtnTxt").text(accuGoldNeed + " gold");
+			
 	}
 	else{
 		alert("not enough gold!");
@@ -406,23 +423,31 @@ $(document).ready(function($) {
 	//button not working
 	$("#accBtn").on("click", function(){
 		console.log("clicked");
-		accuGoldNeed = 25;
+		
 		if(gold >= accuGoldNeed){
 			console.log("accu");
 			player.pattack += 1;
 			
 			gold -= accuGoldNeed;
+			$("#goldh3").html("Gold: " + gold);
 			accuGoldNeed += 25;
-			$("#defStat").text(player.pattack);
+			$("#accuStat").text(player.pattack);
 			console.log(player.pattack);
-			hideShop();
+			$("#defBtnTxt").text(defGoldNeed + " gold");
+		$("#dmgBtnTxt").text(dmgGoldNeed + " gold");
+		$("#accBtnTxt").text(accuGoldNeed + " gold");
+			
 	}
 	else{
 		alert("not enough gold!");
 	}
 
 	});
-
+	$("#done").on("click", function(){
+		hideShop();
+		$("#done").hide();
+		$("#shopButton").show();
+	});
 		
 		// else if(gold >= 25 && shieldClick){
 		// 	player.pattack += 2;
