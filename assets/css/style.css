@@ -35,6 +35,16 @@ h2{
 
 }
 
+.shpBtn{
+	background-color: #035cff;
+    border: 2px #ffb800 solid;
+}
+
+.shpBtn:hover{
+	background-color:#2b0;
+	border:2px #2b0 solid;
+}
+
 #goldh3, #hpPotionsh3, #xph3, #enemiesKilledh3{
 	text-align: left;
 	font-family: 'Press Start 2P', cursive !important;
@@ -60,7 +70,7 @@ h2{
 }
 
 #storeDiv, #playerWeap{
-	margin-top:-25px; 
+	
 }
 .border-radius{
 	border-radius:10px;

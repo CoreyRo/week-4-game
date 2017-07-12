@@ -125,8 +125,35 @@
 						</div>
 						<div id="bottonHud" class="row">
 							<div id="playerWeap" class="col-md-4">
-								<h2>Equipment</h2>
-								<img id="equip">
+								<div id="statsDiv" class="col-md-12">
+										<h2>Stats</h2>
+
+										<div id="dmg" class="stat col-md-4">
+										<h5>Damage</h5>
+										<img class="center-block" id="sharpenBtn" height="40" src="assets/img/attack.png">
+										<h4 id="dmgStat">+3</h4>
+										</div>
+										
+										<div id="harden" class="stat col-md-4">
+										<h5>Defense</h5>
+										<img class="center-block" id="hardenBtn" src="assets/img/shield.png" height="40">
+										<h4 id="defStat">+3</h4>
+										
+										</div>
+
+										<div id="accu" class="stat col-md-4">
+										<h5 >Attack</h5>
+										<img class="center-block" id="accuBtn" height="40" src="assets/img/accu.png">
+										<h4 id="accuStat">+ 3</h4>
+										
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<h3 id="otherStats"></h3>
+											</div>
+										</div>
+									
+								</div>
 								
 
 							</div>
@@ -156,9 +183,28 @@
 									<div id="storeDiv" class="col-md-12">
 										<h2>Store</h2>
 
-										<div class="col-md-4"></div>
-										<div class="col-md-4"></div>
-										<div class="col-md-4"></div>
+										<div id="sharpen" class="col-md-4">
+										<button id="dmgBtn" class="shpBtn">
+										<img  height="50" src="assets/img/attack.png">test
+										</button>
+										</div>
+										
+										<div id="harden" class="col-md-4">
+										<button id="harBtn" class="shpBtn">
+										<img src="assets/img/shield.png" height="50">test
+										</button>
+										</div>
+
+										<div id="accu" class="col-md-4">
+										<button id="accBtn" class="shpBtn">
+										<img height="50" src="assets/img/accu.png">test
+										</button>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<h3 id="bought"></h3>
+											</div>
+										</div>
 									
 									</div>
 							</div>
