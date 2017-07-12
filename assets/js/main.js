@@ -384,7 +384,7 @@ $(document).ready(function($) {
 	});
 
 	//button not working
-	$("#harBtn").on("click", function(){
+	$("#defBtn").on("click", function(){
 		console.log("clicked");
 		defGoldNeed = 25;
 		if(gold >= defGoldNeed){
