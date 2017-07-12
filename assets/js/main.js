@@ -46,10 +46,11 @@ $(document).ready(function($) {
 	var exp = 0;
 	var enemiesArray = [""];
 	var enemiesKilled = 0;
-	var dmgGoldNeed;
-	var defGoldNeed;
-	var accuGoldNeed;
-	var potionGoldNeed;
+	
+	var dmgGoldNeed = 25;
+	var defGoldNeed = 25;
+	var accuGoldNeed = 25;
+	var potionGoldNeed = 10;
 
 
 	//***********************************************************************
@@ -200,7 +201,7 @@ $(document).ready(function($) {
 		ehp:14,
 		eitems:[""],
 		eattack:0,
-		edamage:2,
+		edamage:1,
 		edefense:3,
 		xp:+10,
 	}
@@ -367,10 +368,7 @@ $(document).ready(function($) {
 		$("#accu").show();
 		$("#shopButton").hide();
 		$("#done").show();
-		dmgGoldNeed = 25;
-		defGoldNeed = 25;
-		accuGoldNeed = 25;
-		potionGoldNeed = 10;
+		
 		$("#defBtnTxt").text(defGoldNeed + " gold");
 		$("#dmgBtnTxt").text(dmgGoldNeed + " gold");
 		$("#accBtnTxt").text(accuGoldNeed + " gold");
