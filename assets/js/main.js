@@ -49,6 +49,7 @@ $(document).ready(function($) {
 	var dmgGoldNeed;
 	var defGoldNeed;
 	var accuGoldNeed;
+	var potionGoldNeed;
 
 
 	//***********************************************************************
@@ -60,10 +61,10 @@ $(document).ready(function($) {
 	function dropLoot(){
 		$("#goldh3").html("Gold: " + gold);
 		$("#hpPotionsh3").html("Potions: " + potion);
-		var itemsLoot = ["null","HP Potion", "10 Gold"];
-		var droppedItem = itemsLoot[Math.floor(Math.random() * 4) + 1];
-			if(droppedItem === "10 Gold"){
-				gold += 10;
+		var itemsLoot = ["null","HP Potion", "Some Gold"];
+		var droppedItem = itemsLoot[Math.floor(Math.random() * 3) + 1];
+			if(droppedItem === "Some Gold"){
+				gold += Math.floor(Math.random() * 75) + 10;
 				$("#goldh3").html("Gold: " + gold);
 
 				console.log("dropped " + droppedItem);
@@ -79,7 +80,7 @@ $(document).ready(function($) {
 						}
 			}
 			
-			if(droppedItem === "HP Potion" && potion < 8){
+			if(droppedItem === "HP Potion" && potion < 10){
 				potion += 1;
 				console.log("dropped " + droppedItem);
 				console.log("Gold: " + gold);
@@ -151,7 +152,7 @@ $(document).ready(function($) {
 		pitems:[""],
 		pattack:+0,
 		pdamage:+0,
-		pdefense:10,
+		pdefense:+0,
 		xp:0,
 		lvl:1,
 		
@@ -209,7 +210,7 @@ $(document).ready(function($) {
 		eimg:'assets/img/warrior.gif',
 		ekilledImg:'assets/img/warriorDead.png',
 		edmgImg:'assets/img/warriorDmg.gif',
-		ehp:16,
+		ehp:18,
 		eitems:[""],
 		eattack:0,
 		edamage:6,
@@ -223,7 +224,7 @@ $(document).ready(function($) {
 		eimg:'assets/img/demon.gif',
 		ekilledImg:'assets/img/demonDead.png',
 
-		ehp:20,
+		ehp:35,
 		eitems:[""],
 		eattack:0,
 		edamage:10,
@@ -364,107 +365,130 @@ $(document).ready(function($) {
 		dmgGoldNeed = 25;
 		defGoldNeed = 25;
 		accuGoldNeed = 25;
+		potionGoldNeed = 10;
 		$("#defBtnTxt").text(defGoldNeed + " gold");
 		$("#dmgBtnTxt").text(dmgGoldNeed + " gold");
 		$("#accBtnTxt").text(accuGoldNeed + " gold");
-		// var sharpenClick = false;
-		// var shieldClick = false;
-		// var accuClick = false;
+		$("#potionBtnTxt").text(potionGoldNeed + " gold");
+		
 	});
 
 	$("#dmgBtn").on("click", function(){
 		console.log("clicked sharpen");
 		
-		
-		if(gold >= dmgGoldNeed){
-			console.log("sharpen");
-			player.pdamage += 2;
-			
-			gold -= dmgGoldNeed;
-			$("#goldh3").html("Gold: " + gold);
-			dmgGoldNeed += 25;
-			$("#dmgStat").text(player.pdamage);
-			console.log(player.pdamge);
-			$("#defBtnTxt").text(defGoldNeed + " gold");
-		$("#dmgBtnTxt").text(dmgGoldNeed + " gold");
-		$("#accBtnTxt").text(accuGoldNeed + " gold");
-			
+		if(player.pdamage <= 14){
+			if(gold >= dmgGoldNeed){
+				console.log("sharpen");
+				player.pdamage += 1;
+				
+				gold -= dmgGoldNeed;
+				$("#goldh3").html("Gold: " + gold);
+				dmgGoldNeed += 25;
+				$("#dmgStat").text(player.pdamage + "/14");
+				console.log(player.pdamge);
+				$("#defBtnTxt").text(defGoldNeed + " gold");
+				$("#dmgBtnTxt").text(dmgGoldNeed + " gold");
+				$("#accBtnTxt").text(accuGoldNeed + " gold");
+				$("#potionBtnTxt").text(potionGoldNeed + " gold");
+				
+			}
+			else{
+				alert("not enough gold!");
+			}
 		}
 		else{
-			alert("not enough gold!");
+			alert("You are at max Damage!");
 		}
-
 	});
 
 	//button not working
 	$("#defBtn").on("click", function(){
 		console.log("clicked");
-		
-		if(gold >= defGoldNeed){
-			console.log("harden");
-			player.pdefense += 1;
-			
-			gold -= defGoldNeed;
-			$("#goldh3").html("Gold: " + gold);
-			defGoldNeed += 25;
-			$("#defStat").text(player.pdefense);
-			console.log(player.pdefense);
-			$("#defBtnTxt").text(defGoldNeed + " gold");
-		$("#dmgBtnTxt").text(dmgGoldNeed + " gold");
-		$("#accBtnTxt").text(accuGoldNeed + " gold");
-			
-	}
-	else{
-		alert("not enough gold!");
-	}
+		if(player.pdefense <= 15){
+			if(gold >= defGoldNeed){
+				console.log("harden");
 
+				player.pdefense += 1;
+				
+				gold -= defGoldNeed;
+				$("#goldh3").html("Gold: " + gold);
+				defGoldNeed += 25;
+				$("#defStat").text(player.pdefense + "/15");
+				console.log(player.pdefense);
+				$("#defBtnTxt").text(defGoldNeed + " gold");
+				$("#dmgBtnTxt").text(dmgGoldNeed + " gold");
+				$("#accBtnTxt").text(accuGoldNeed + " gold");
+				$("#potionBtnTxt").text(potionGoldNeed + " gold");
+			}
+			else{
+				alert("not enough gold!");
+			}
+		}
+		else{
+			alert("You are at max Defense!");
+		}
 	});
 
 	//button not working
 	$("#accBtn").on("click", function(){
 		console.log("clicked");
-		
-		if(gold >= accuGoldNeed){
-			console.log("accu");
-			player.pattack += 1;
-			
-			gold -= accuGoldNeed;
-			$("#goldh3").html("Gold: " + gold);
-			accuGoldNeed += 25;
-			$("#accuStat").text(player.pattack);
-			console.log(player.pattack);
-			$("#defBtnTxt").text(defGoldNeed + " gold");
-		$("#dmgBtnTxt").text(dmgGoldNeed + " gold");
-		$("#accBtnTxt").text(accuGoldNeed + " gold");
-			
-	}
-	else{
-		alert("not enough gold!");
-	}
+		if(player.pattack <= 10){
+			if(gold >= accuGoldNeed){
+				console.log("accu");
+				player.pattack += 1;
+				
+				gold -= accuGoldNeed;
+				$("#goldh3").html("Gold: " + gold);
+				accuGoldNeed += 25;
+				$("#accuStat").text(player.pattack + "/10");
+				console.log(player.pattack);
+				$("#defBtnTxt").text(defGoldNeed + " gold");
+				$("#dmgBtnTxt").text(dmgGoldNeed + " gold");
+				$("#accBtnTxt").text(accuGoldNeed + " gold");
+				$("#potionBtnTxt").text(potionGoldNeed + " gold");	
+			}
+			else{
+				alert("not enough gold!");
+			}
+		}
+		else{
+			alert("You are at max Attack!");
+		}
+	});
+
+	$("#potionBtn").on("click", function(){
+		console.log("clicked");
+		if(potion <= 10){
+			if(gold >= potionGoldNeed){
+				console.log("potionbuy");
+				potion += 1;
+				gold -= potionGoldNeed;
+				$("#goldh3").html("Gold: " + gold);
+				potionGoldNeed += 10;
+				$("#hpPotionsh3").replaceWith('<span id="hpPotionsh3">Potions: ' + potion + '</span>');
+				console.log(potion);
+				$("#defBtnTxt").text(defGoldNeed + " gold");
+				$("#dmgBtnTxt").text(dmgGoldNeed + " gold");
+				$("#accBtnTxt").text(accuGoldNeed + " gold");
+				$("#potionBtnTxt").text(potionGoldNeed + " gold");
+				
+			}
+			else{
+				alert("not enough gold!");
+			}
+		}
+		else{
+			alert("You have too many potions!");
+		}
 
 	});
+
 	$("#done").on("click", function(){
 		hideShop();
 		$("#done").hide();
 		$("#shopButton").show();
 	});
 		
-		// else if(gold >= 25 && shieldClick){
-		// 	player.pattack += 2;
-		// 	shieldClick = false;
-		// 	gold -= 25;
-		// 	$("#defStat").text(player.pdefense);
-		// }
-		// else if(gold >= 25 && accuClick){
-		// 	player.pattack += 2;
-		// 	accuClick = false;
-		// 	gold -= 25;
-		// 	$("#accuStat").text(player.pattack);
-		// }
-		// else{
-
-		// }
-	
 	
 	$("#lvlUpBtn").on("click", function(){
 		console.log("playerxp " + player.xp);
@@ -474,7 +498,8 @@ $(document).ready(function($) {
 					player.tphp += 5;
 					player.php = player.tphp;
 					alert("You've leveled up");
-
+					gold += 75;
+					$("#goldh3").html("Gold: " + gold);
 					exp = 0;
 					console.log("exp " + exp);
 					$("#eimg").show();
@@ -493,6 +518,8 @@ $(document).ready(function($) {
 			if(exp >= 75){
 					player.lvl += 1;
 					player.tphp += 10;
+					gold += 150;
+					$("#goldh3").html("Gold: " + gold);
 					player.php = player.tphp;
 					alert("You've leveled up");
 
@@ -545,7 +572,7 @@ $(document).ready(function($) {
 				$("#playerDamage").replaceWith('<h4 id="playerDamage">You did ' + ptdamage +' damage to ' + currentEnemy.name + '!</h4>');
 				setTimeout(waitv, 1600);
 					function waitv(){
-						$("#playerDamage").hide();
+						$("#playerDamage").hide(200);
 					}
 				currentEnemy.ehp -= ptdamage;
 				console.log("enemyhp: " + currentEnemy.ehp);
@@ -559,7 +586,7 @@ $(document).ready(function($) {
 				console.log("Missed attack. Attack roll " + pattackr + " < " + currentEnemy.edefense);
 				setTimeout(waitm, 1500);
 					function waitm(){
-						$("#playerAttack").hide();
+						$("#playerAttack").hide(200);
 					}
 			}	
 			if(currentEnemy.ehp >= 1){
@@ -583,7 +610,7 @@ $(document).ready(function($) {
 							$("#enemyDamage").replaceWith('<h4 id="enemyDamage">' + currentEnemy.name + ' did ' + enemyDamages +' damage to you!</h4>');
 							setTimeout(waitb, 1300);
 								function waitb(){
-									$("#enemyDamage").hide();
+									$("#enemyDamage").hide(200);
 								}
 							playerCombat.php -= enemyDamages;
 							console.log("player hp: " + playerCombat.php);
@@ -616,7 +643,7 @@ $(document).ready(function($) {
 							console.log("Missed attack. Attack roll " + eattackr + " < " + playerCombat.pdefense);
 							setTimeout(waitg, 1200);
 								function waitg(){
-									$("#enemyAttack").hide();
+									$("#enemyAttack").hide(200);
 								}
 						}
 					}
@@ -749,10 +776,10 @@ $(document).ready(function($) {
 	function mainGame(){
 		$("#storeDiv").hide();
 		$("#shopButton").show();
-
-		$("#dmgStat").text(player.pdamage);
-			$("#defStat").text(player.pdefense);
-			$("#accuStat").text(player.pattack);
+		$("#potionBtnTxt").text(potionGoldNeed + " gold");
+		$("#dmgStat").text(player.pdamage + "/14");
+		$("#defStat").text(player.pdefense + "/15");
+		$("#accuStat").text(player.pattack + "/10");
 		$("#mainGameBox").show();
 		$("#lvlUpBtn").hide();
 		$("#foundEnemy").hide();
