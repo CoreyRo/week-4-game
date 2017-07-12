@@ -37,7 +37,7 @@ $(document).ready(function($) {
 	var pcritDamage;
 	var pdefense;
 	var xp;
-	var gold = 200;
+	var gold = 0;
 	var potion = 2;
 	var eattackr;
 	var edamager;
@@ -153,6 +153,7 @@ $(document).ready(function($) {
 		pattack:+0,
 		pdamage:+0,
 		pdefense:+0,
+		defense:4,
 		xp:0,
 		lvl:1,
 		
@@ -320,31 +321,35 @@ $(document).ready(function($) {
 
 	$("#potionButton").on("click", function(){
 		var healthMax = player.tphp - 15;
-		if(potion >= 1){
-			if(player.php <= healthMax){
-				player.php += 15;
-			}
-			else{
-				player.php = player.tphp;
-			}
-			
-			potion = potion - 1;
-			$("#hpPotionsh3").replaceWith('<span id="hpPotionsh3">Potions: ' + potion + '</span>');
-			$("#playerHP").replaceWith('<h2 id="playerHP">' + player.php + " HP</h3>");
-			
-			console.log("potions " + potion);
-			console.log("healthMax " + healthMax);
-			console.log("player.tphp " + player.tphp);
-			console.log("player.php " + player.php);
+		if(player.php === player.tphp){
+			alert("Your health is full!")
 		}
 		else{
-			setTimeout(waitl, 20);
-				function waitl(){
-					alert("Out of Health Potions!");
+			if(potion >= 1){
+				if(player.php <= healthMax){
+					player.php += 15;
 				}
-			
-		}
-			
+				else{
+					player.php = player.tphp;
+				}
+				
+				potion = potion - 1;
+				$("#hpPotionsh3").replaceWith('<span id="hpPotionsh3">Potions: ' + potion + '</span>');
+				$("#playerHP").replaceWith('<h2 id="playerHP">' + player.php + " HP</h3>");
+				
+				console.log("potions " + potion);
+				console.log("healthMax " + healthMax);
+				console.log("player.tphp " + player.tphp);
+				console.log("player.php " + player.php);
+			}
+			else{
+				setTimeout(waitl, 20);
+					function waitl(){
+						alert("Out of Health Potions!");
+					}
+				
+			}
+		}	
 	});
 	function hideShop(){
 		setTimeout(closeShop, 1)
@@ -376,7 +381,7 @@ $(document).ready(function($) {
 	$("#dmgBtn").on("click", function(){
 		console.log("clicked sharpen");
 		
-		if(player.pdamage <= 14){
+		if(player.pdamage <= 15){
 			if(gold >= dmgGoldNeed){
 				console.log("sharpen");
 				player.pdamage += 1;
@@ -384,7 +389,7 @@ $(document).ready(function($) {
 				gold -= dmgGoldNeed;
 				$("#goldh3").html("Gold: " + gold);
 				dmgGoldNeed += 25;
-				$("#dmgStat").text(player.pdamage + "/14");
+				$("#dmgStat").text(player.pdamage + "/15");
 				console.log(player.pdamge);
 				$("#defBtnTxt").text(defGoldNeed + " gold");
 				$("#dmgBtnTxt").text(dmgGoldNeed + " gold");
@@ -404,7 +409,7 @@ $(document).ready(function($) {
 	//button not working
 	$("#defBtn").on("click", function(){
 		console.log("clicked");
-		if(player.pdefense <= 15){
+		if(player.pdefense <= 10){
 			if(gold >= defGoldNeed){
 				console.log("harden");
 
@@ -413,7 +418,7 @@ $(document).ready(function($) {
 				gold -= defGoldNeed;
 				$("#goldh3").html("Gold: " + gold);
 				defGoldNeed += 25;
-				$("#defStat").text(player.pdefense + "/15");
+				$("#defStat").text(player.pdefense + "/10");
 				console.log(player.pdefense);
 				$("#defBtnTxt").text(defGoldNeed + " gold");
 				$("#dmgBtnTxt").text(dmgGoldNeed + " gold");
@@ -597,7 +602,7 @@ $(document).ready(function($) {
 						console.log("attack roll " + eattackr);
 						console.log("Player Defense: " + playerCombat.pdefense);
 						console.log("Enemy HP: " + playerCombat.php);
-						if(eattackr > playerCombat.pdefense){
+						if(eattackr > playerCombat.pdefense + playerCombat.defense){
 
 							edamageRoll();
 							var enemyDamages = edamager + currentEnemy.edamage;
@@ -777,8 +782,8 @@ $(document).ready(function($) {
 		$("#storeDiv").hide();
 		$("#shopButton").show();
 		$("#potionBtnTxt").text(potionGoldNeed + " gold");
-		$("#dmgStat").text(player.pdamage + "/14");
-		$("#defStat").text(player.pdefense + "/15");
+		$("#dmgStat").text(player.pdamage + "/15");
+		$("#defStat").text(player.pdefense + "/10");
 		$("#accuStat").text(player.pattack + "/10");
 		$("#mainGameBox").show();
 		$("#lvlUpBtn").hide();
